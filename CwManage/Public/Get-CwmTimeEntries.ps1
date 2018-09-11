@@ -2,8 +2,11 @@ function Get-CwmTimeEntries {
     [CmdletBinding()]
 
     Param (
-        [Parameter(Mandatory = $False, Position = 0)]
+        [Parameter(Mandatory = $False)]
         [string]$AgreementId,
+
+        [Parameter(Mandatory = $False)]
+        [string]$Member,
 
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString
@@ -19,6 +22,10 @@ function Get-CwmTimeEntries {
 
     if ($AgreementId) {
         $Uri += '&conditions=agreement/id=' + $AgreementId
+    }
+
+    if ($Member) {
+        $Uri += '&conditions=member/identifier="' + $Member + '"'
     }
 
     $ReturnValue = Invoke-CwmApiCall -Uri $Uri -AuthString $AuthString

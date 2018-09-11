@@ -5,7 +5,7 @@ function Invoke-CwmApiCall {
         [Parameter(Mandatory = $True, Position = 0)]
         [string]$Uri,
 
-        [Parameter(Mandatory = $True, Position = 1)]
+        [Parameter(Mandatory = $false, Position = 1)]
         [string]$AuthString = $global:CwAuthString
     )
 
@@ -17,6 +17,7 @@ function Invoke-CwmApiCall {
     $Headers.Authorization = "Basic $AuthString"
 
     Write-Verbose "$VerbosePrefix Requesting Uri: $Uri"
+    $global:CwUri = $Uri
     $JsonResponse = Invoke-RestMethod -URI $Uri -Headers $Headers -ContentType $ContentType -Method Get
 
     if ($JsonResponse) {

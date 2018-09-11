@@ -21,6 +21,7 @@ function New-CwmAuthString {
     }
 
     $AuthString = $CwCompany + '+' + $CwPublicKey + ':' + $CwPrivateKey
+    Write-Verbose "$VerbosePrefix $AuthString"
     $EncodedAuthString = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(($Authstring)));
 
     return $EncodedAuthString
