@@ -1,12 +1,17 @@
-function Get-CwmTimeEntries {
+function Get-CwmServiceTicket {
     [CmdletBinding()]
 
     Param (
         [Parameter(Mandatory = $False)]
-        [string]$AgreementId,
+        [string[]]$Status,
 
         [Parameter(Mandatory = $False)]
-        [string[]]$Member,
+        [string[]]$NotStatus,
+
+        [Parameter(Mandatory = $False, ValueFromPipeline = $true)]
+        [ServiceBoard]
+        [string]
+        $ServiceBoard,
 
         [Parameter(Mandatory = $False)]
         [string]$PageSize = 1000,
@@ -15,11 +20,11 @@ function Get-CwmTimeEntries {
         [string]$AuthString = $global:CwAuthString
     )
 
-    $VerbosePrefix = "Get-CwmTimeEntries:"
+    $VerbosePrefix = "Get-CwmServiceTicket:"
 
     $Uri = "https://api-na.myconnectwise.net/"
     $Uri += 'v4_6_Release/apis/3.0/'
-    $Uri += "time/entries"
+    $Uri += "service/tickets"
 
     $QueryParams = @{}
     $QueryParams.pageSize = $PageSize
@@ -27,12 +32,19 @@ function Get-CwmTimeEntries {
 
     $Conditions = @{}
 
-    if ($AgreementId) {
-        $Conditions.'agreement/id' = $AgreementId
+    if ($Status) {
+        $Conditions.'status/name' = $Status
     }
 
-    if ($Member) {
-        $Conditions.'member/identifier' = $Member
+    if ($ServiceBoard) {
+        if ($ServiceBoard.GetType().Name -eq 'ServiceBoard') {
+            $ServiceBoard = $ServiceBoard.Name
+        }
+        $Conditions.'board/name' = $ServiceBoard
+    }
+
+    if ($NotStatus) {
+        $Conditions.'status/name!' = $NotStatus
     }
 
 
@@ -43,6 +55,7 @@ function Get-CwmTimeEntries {
     if ($Conditions.Count -gt 0) {
         $ApiParams.Conditions = $Conditions
     }
+    $global:api = $ApiParams
 
     $ReturnValue = Invoke-CwmApiCall @ApiParams
     $ReturnValue

@@ -5,6 +5,9 @@ function Get-CwmCompany {
         [Parameter(Mandatory = $False, Position = 0)]
         [string]$Name,
 
+        [Parameter(Mandatory = $False)]
+        [string]$PageSize = 1000,
+
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString
     )
@@ -15,13 +18,20 @@ function Get-CwmCompany {
     $Uri += 'v4_6_Release/apis/3.0/'
     $Uri += "company/companies"
 
-    $Uri += "?pageSize=1000"
-
+    $Conditions = @{}
 
     if ($Name) {
-        $Uri += '&conditions=name="' + $Name + '"'
+        $Conditions.'name' = $Name
     }
 
-    $ReturnValue = Invoke-CwmApiCall -Uri $Uri -AuthString $AuthString
+    $ApiParams = @{}
+    $ApiParams.Uri = $Uri
+    $ApiParams.AuthString = $AuthString
+    $ApiParams.QueryParams = $QueryParams
+    if ($Conditions.Count -gt 0) {
+        $ApiParams.Conditions = $Conditions
+    }
+
+    $ReturnValue = Invoke-CwmApiCall @ApiParams
     $ReturnValue
 }

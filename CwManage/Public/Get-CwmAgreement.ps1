@@ -9,7 +9,10 @@ function Get-CwmAgreement {
         [string]$AuthString = $global:CwAuthString,
 
         [Parameter(Mandatory = $False)]
-        [switch]$ShowAll
+        [switch]$ShowAll,
+
+        [Parameter(Mandatory = $False)]
+        [string]$PageSize = 1000
     )
 
     $VerbosePrefix = "Get-CwmAgreement:"
@@ -18,18 +21,27 @@ function Get-CwmAgreement {
     $Uri += 'v4_6_Release/apis/3.0/'
     $Uri += "finance/agreements"
 
-    $Uri += "?pageSize=1000"
+    $QueryParams = @{}
+    $QueryParams.pageSize = $PageSize
 
-    #https://api-na.myconnectwise.net/v4_6_release/apis/3.0/finance/agreements?conditions=company/id=19471
+    $Conditions = @{}
 
     if ($CompanyId) {
-        $Uri += '&conditions=company/id=' + $CompanyId
+        $Conditions.'company/id' = $CompanyId
     }
 
     if (!($ShowAll)) {
-        $Uri += " AND noEndingDateFlag=True"
+        $Conditions.'noEndingDateFlag' = $true
     }
 
-    $ReturnValue = Invoke-CwmApiCall -Uri $Uri -AuthString $AuthString
+    $ApiParams = @{}
+    $ApiParams.Uri = $Uri
+    $ApiParams.AuthString = $AuthString
+    $ApiParams.QueryParams = $QueryParams
+    if ($Conditions.Count -gt 0) {
+        $ApiParams.Conditions = $Conditions
+    }
+
+    $ReturnValue = Invoke-CwmApiCall @ApiParams
     $ReturnValue
 }

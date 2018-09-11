@@ -1,12 +1,9 @@
-function Get-CwmTimeEntries {
+function Get-CwmServiceBoard {
     [CmdletBinding()]
 
     Param (
         [Parameter(Mandatory = $False)]
-        [string]$AgreementId,
-
-        [Parameter(Mandatory = $False)]
-        [string[]]$Member,
+        [string]$Name,
 
         [Parameter(Mandatory = $False)]
         [string]$PageSize = 1000,
@@ -15,11 +12,11 @@ function Get-CwmTimeEntries {
         [string]$AuthString = $global:CwAuthString
     )
 
-    $VerbosePrefix = "Get-CwmTimeEntries:"
+    $VerbosePrefix = "Get-CwmServiceBoard:"
 
     $Uri = "https://api-na.myconnectwise.net/"
     $Uri += 'v4_6_Release/apis/3.0/'
-    $Uri += "time/entries"
+    $Uri += "service/boards"
 
     $QueryParams = @{}
     $QueryParams.pageSize = $PageSize
@@ -45,5 +42,15 @@ function Get-CwmTimeEntries {
     }
 
     $ReturnValue = Invoke-CwmApiCall @ApiParams
-    $ReturnValue
+
+    $ReturnObject = @()
+    foreach ($r in $ReturnValue) {
+        $ThisObject = New-Object ServiceBoard
+        $ThisObject.Name = $r.name
+        $ThisObject.Id = $r.id
+        $ThisObject.FullData = $r
+        $ReturnObject += $ThisObject
+    }
+
+    $ReturnObject
 }

@@ -5,6 +5,9 @@ function Get-CwmAdjustment {
         [Parameter(Mandatory = $False, Position = 0)]
         [string]$AgreementId,
 
+        [Parameter(Mandatory = $False)]
+        [string]$PageSize = 1000,
+
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString
     )
@@ -17,8 +20,23 @@ function Get-CwmAdjustment {
     $Uri += $AgreementId
     $uri += '/adjustments'
 
-    $Uri += "?pageSize=1000"
+    $QueryParams = @{}
+    $QueryParams.pageSize = $PageSize
 
-    $ReturnValue = Invoke-CwmApiCall -Uri $Uri -AuthString $AuthString
+    $Conditions = @{}
+
+    if ($CompanyId) {
+        $Conditions.'company/id' = $CompanyId
+    }
+
+    $ApiParams = @{}
+    $ApiParams.Uri = $Uri
+    $ApiParams.AuthString = $AuthString
+    $ApiParams.QueryParams = $QueryParams
+    if ($Conditions.Count -gt 0) {
+        $ApiParams.Conditions = $Conditions
+    }
+
+    $ReturnValue = Invoke-CwmApiCall @ApiParams
     $ReturnValue
 }

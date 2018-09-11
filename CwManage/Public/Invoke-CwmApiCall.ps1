@@ -6,6 +6,12 @@ function Invoke-CwmApiCall {
         [string]$Uri,
 
         [Parameter(Mandatory = $false, Position = 1)]
+        [Hashtable]$QueryParams,
+
+        [Parameter(Mandatory = $false, Position = 2)]
+        [Hashtable]$Conditions,
+
+        [Parameter(Mandatory = $false, Position = 3)]
         [string]$AuthString = $global:CwAuthString
     )
 
@@ -16,9 +22,29 @@ function Invoke-CwmApiCall {
     $Headers = @{}
     $Headers.Authorization = "Basic $AuthString"
 
-    Write-Verbose "$VerbosePrefix Requesting Uri: $Uri"
+    if ($Conditions) {
+        Write-Verbose "$VerbosePrefix Conditions found, enumerating"
+        $ConditionString = [HelperWeb]::createConditionString($Conditions)
+        Write-Verbose "$VerbosePrefix ConditionString: $ConditionString"
+        if ($QueryParams) {
+            $QueryParams.conditions = $ConditionString
+        } else {
+            $QueryParams = @{}
+            $QueryParams.conditions = $ConditionString
+        }
+    }
+
+    # Format QueryString
+    if ($QueryParams) {
+        $QueryString = [HelperWeb]::createQueryString($QueryParams)
+        $Uri += $QueryString
+    }
     $global:CwUri = $Uri
+
+    Write-Verbose "$VerbosePrefix Requesting Uri: $Uri"
     $JsonResponse = Invoke-RestMethod -URI $Uri -Headers $Headers -ContentType $ContentType -Method Get
+
+    #[HelperWeb]::createQueryString($queryString)
 
     if ($JsonResponse) {
         $JsonResponse
