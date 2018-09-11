@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-CwmAuthString
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Creates base64 string needed for APi Call Authorization Token.
 
 ## SYNTAX
 
@@ -18,21 +18,22 @@ New-CwmAuthString [[-CwCompany] <String>] [[-CwPublicKey] <String>] [[-CwPrivate
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+Creates base64 string needed for APi Call Authorization Token. Value can be passed to other other cmdlets, but is also stored in global variable CwAuthString
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> $AuthString = New-CwmAuthString -CwCompany 'mycompany' -CwPublicKey 'mypublickey' -CwPrivateKey 'myprivatekey'
+PS C:\> $Companies = Get-CwmCompany -AuthString $AuthString
 ```
 
-{{ Add example description here }}
+Creates AuthString and uses it to query all Companies.
 
 ## PARAMETERS
 
 ### -CwCompany
-{{Fill CwCompany Description}}
+ConnectWise Manage Company Name
 
 ```yaml
 Type: String
@@ -47,7 +48,7 @@ Accept wildcard characters: False
 ```
 
 ### -CwPrivateKey
-{{Fill CwPrivateKey Description}}
+ConnectWise Manage Private API Key
 
 ```yaml
 Type: String
@@ -62,7 +63,7 @@ Accept wildcard characters: False
 ```
 
 ### -CwPublicKey
-{{Fill CwPublicKey Description}}
+ConnectWise Manage Public API Key
 
 ```yaml
 Type: String
@@ -85,7 +86,7 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ### None
 ## OUTPUTS
 
-### System.Object
+### String
 ## NOTES
 
 ## RELATED LINKS
