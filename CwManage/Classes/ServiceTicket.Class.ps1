@@ -1,10 +1,9 @@
-class ServiceBoard {
-    [string]$ServiceBoard
-    [int]$Id
+class ServiceTicket {
+    [int]$ServiceTicket
     $FullData
 
     ##################################### Constructors #####################################
     # Constructor with no parameter
-    ServiceBoard() {
+    ServiceTicket() {
     }
 }

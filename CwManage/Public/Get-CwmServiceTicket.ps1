@@ -1,19 +1,24 @@
 function Get-CwmServiceTicket {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParametersetName = "NoId")]
 
     Param (
-        [Parameter(Mandatory = $False)]
+        [Parameter(Mandatory = $False, ParameterSetName = 'Id')]
+        [Alias('Id')]
+        [int[]]$TicketNumber,
+
+        [Parameter(Mandatory = $False, ParameterSetName = 'NoId')]
         [string[]]$Status,
 
-        [Parameter(Mandatory = $False)]
+        [Parameter(Mandatory = $False, ParameterSetName = 'NoId')]
         [string[]]$NotStatus,
 
-        [Parameter(Mandatory = $False, ValueFromPipeline = $true)]
-        [ServiceBoard]
-        [string]
-        $ServiceBoard,
+        [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True, ParameterSetName = 'NoId')]
+        [string]$ServiceBoard,
 
-        [Parameter(Mandatory = $False)]
+        [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True, ParameterSetName = 'NoId')]
+        [string]$Company,
+
+        [Parameter(Mandatory = $False, ParameterSetName = 'NoId')]
         [string]$PageSize = 1000,
 
         [Parameter(Mandatory = $false)]
@@ -26,37 +31,57 @@ function Get-CwmServiceTicket {
     $Uri += 'v4_6_Release/apis/3.0/'
     $Uri += "service/tickets"
 
-    $QueryParams = @{}
-    $QueryParams.pageSize = $PageSize
-
-
-    $Conditions = @{}
-
-    if ($Status) {
-        $Conditions.'status/name' = $Status
-    }
-
-    if ($ServiceBoard) {
-        if ($ServiceBoard.GetType().Name -eq 'ServiceBoard') {
-            $ServiceBoard = $ServiceBoard.Name
-        }
-        $Conditions.'board/name' = $ServiceBoard
-    }
-
-    if ($NotStatus) {
-        $Conditions.'status/name!' = $NotStatus
-    }
-
-
     $ApiParams = @{}
-    $ApiParams.Uri = $Uri
     $ApiParams.AuthString = $AuthString
-    $ApiParams.QueryParams = $QueryParams
-    if ($Conditions.Count -gt 0) {
-        $ApiParams.Conditions = $Conditions
-    }
-    $global:api = $ApiParams
 
-    $ReturnValue = Invoke-CwmApiCall @ApiParams
-    $ReturnValue
+    switch ($PsCmdlet.ParameterSetName) {
+        'NoId' {
+            $QueryParams = @{}
+            $QueryParams.pageSize = $PageSize
+
+
+            $Conditions = @{}
+
+            if ($Status) {
+                $Conditions.'status/name' = $Status
+            }
+
+            if ($ServiceBoard) {
+                $Conditions.'board/name' = $ServiceBoard
+            }
+
+            if ($Company) {
+                $Conditions.'company/name' = $Company
+            }
+
+            if ($NotStatus) {
+                $Conditions.'status/name!' = $NotStatus
+            }
+
+            $ApiParams.Uri = $Uri
+            if ($QueryParams.Count -gt 0) { $ApiParams.QueryParams = $QueryParams }
+            if ($Conditions.Count -gt 0) { $ApiParams.Conditions = $Conditions }
+
+            $ReturnValue = Invoke-CwmApiCall @ApiParams
+            $ReturnValue
+        }
+        'Id' {
+            $ReturnObject = @()
+            foreach ($ticket in $TicketNumber) {
+                $ThisUri = $Uri + "/$ticket"
+                $ApiParams.Uri = $ThisUri
+                $ReturnValue = Invoke-CwmApiCall @ApiParams
+                $ThisObject = New-Object ServiceTicket
+                $ThisObject.ServiceTicket = $ReturnValue.Id
+                $ThisObject.FullData = $ReturnValue
+                $ReturnObject += $ReturnValue
+            }
+            $ReturnObject
+        }
+    }
+
+
+
+
+
 }
