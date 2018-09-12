@@ -46,7 +46,7 @@ function Get-CwmServiceBoard {
     $ReturnObject = @()
     foreach ($r in $ReturnValue) {
         $ThisObject = New-Object ServiceBoard
-        $ThisObject.Name = $r.name
+        $ThisObject.ServiceBoard = $r.name
         $ThisObject.Id = $r.id
         $ThisObject.FullData = $r
         $ReturnObject += $ThisObject
