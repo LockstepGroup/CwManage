@@ -9,6 +9,9 @@ function New-CwmServiceTicket {
         [Parameter(Mandatory = $false)]
         [string]$Description,
 
+        [Parameter(Mandatory = $false)]
+        [string]$InternalNotes,
+
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $True)]
         [string]$ServiceBoard,
 
@@ -63,6 +66,11 @@ function New-CwmServiceTicket {
     if ($Description) {
         $ApiParams.Body.InitialDescription = $Description
         $WhatIfMessage += "Description: $Description`r`n"
+    }
+
+    if ($InternalNotes) {
+        $ApiParams.Body.initialInternalAnalysis = $InternalNotes
+        $WhatIfMessage += "InternalNotes: $InternalNotes`r`n"
     }
 
     if ($Agreement) {
