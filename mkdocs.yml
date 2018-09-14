@@ -1,0 +1,17 @@
+site_name: CwManage Docs
+repo_url: https://github.com/LockstepGroup/CwManage
+theme: readthedocs
+pages:
+  - Home: index.md
+  - Cmdlets:
+    - Get-CwmAdjustment: Get-CwmAdjustment.md
+    - Get-CwmAgreement: Get-CwmAgreement.md
+    - Get-CwmCompany: Get-CwmCompany.md
+    - Get-CwmConfiguration: Get-CwmConfiguration.md
+    - Get-CwmServiceBoard: Get-CwmServiceBoard.md
+    - Get-CwmServiceTicket: Get-CwmServiceTicket.md
+    - Get-CwmTimeEntries: Get-CwmTimeEntries.md
+    - Invoke-CwmApiCall: Invoke-CwmApiCall.md
+    - New-CwmAuthString: New-CwmAuthString.md
+    - New-CwmServiceTicket: New-CwmServiceTicket.md
+
