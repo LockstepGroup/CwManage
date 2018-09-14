@@ -1,9 +1,9 @@
-class ServiceTicket {
-    [int]$TicketId
+class Agreement {
+    [int]$AgreementId
     $FullData
 
     ##################################### Constructors #####################################
     # Constructor with no parameter
-    ServiceTicket() {
+    Agreement() {
     }
 }

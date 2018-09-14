@@ -12,6 +12,14 @@ class HelperWeb {
         return $queryString
     }
 
+    static [string] formatConditionValue ($value) {
+        if ($value.GetType().Name -eq 'String') {
+            return "`"$value`""
+        } else {
+            return $value
+        }
+    }
+
     static [string] createConditionString ([hashtable]$hashTable) {
         $i = 0
         $returnString = ""
@@ -22,17 +30,13 @@ class HelperWeb {
                     if ($returnString.Length -gt 0) {
                         $returnString += ' and '
                     }
-                    $returnString += $hash.Name + '="' + $v + '"'
+                    $returnString += $hash.Name + '=' + [HelperWeb]::formatConditionValue($hash.Value)
                 }
             } else {
                 if ($returnString.Length -gt 0) {
                     $returnString += ' and '
                 }
-                if ($hash.Value.GetType().Name -eq 'Boolean') {
-                    $returnString += $hash.Name + '=' + $hash.Value + ''
-                } else {
-                    $returnString += $hash.Name + '="' + $hash.Value + '"'
-                }
+                $returnString += $hash.Name + '=' + [HelperWeb]::formatConditionValue($hash.Value)
             }
         }
         return $returnString

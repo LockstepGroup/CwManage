@@ -37,7 +37,7 @@ function Get-CwmCompany {
     $ReturnObject = @()
     foreach ($r in $ReturnValue) {
         $ThisObject = New-Object Company
-        $ThisObject.Company = $r.name
+        $ThisObject.CompanyName = $r.name
         $ThisObject.CompanyId = $r.id
         $ThisObject.FullData = $r
         $ReturnObject += $ThisObject

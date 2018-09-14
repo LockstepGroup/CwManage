@@ -1,9 +1,9 @@
 function Get-CwmAgreement {
     [CmdletBinding()]
-
+    [OutputType([Agreement[]])]
     Param (
-        [Parameter(Mandatory = $False, Position = 0)]
-        [string]$CompanyId,
+        [Parameter(Mandatory = $False, Position = 0, ValueFromPipelineByPropertyName = $True)]
+        [int]$CompanyId,
 
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString,
@@ -43,5 +43,14 @@ function Get-CwmAgreement {
     }
 
     $ReturnValue = Invoke-CwmApiCall @ApiParams
-    $ReturnValue
+
+    $ReturnObject = @()
+    foreach ($r in $ReturnValue) {
+        $ThisObject = New-Object Agreement
+        $ThisObject.AgreementId = $r.id
+        $ThisObject.FullData = $r
+        $ReturnObject += $ThisObject
+    }
+
+    $ReturnObject
 }

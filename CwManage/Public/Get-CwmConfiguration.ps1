@@ -2,11 +2,13 @@ function Get-CwmConfiguration {
     [CmdletBinding()]
 
     Param (
-        [Parameter(Mandatory = $False)]
-        [string]$CompanyName,
+        [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
+        [Alias('CompanyName')]
+        [string]$Company,
 
         [Parameter(Mandatory = $False)]
-        [string]$ConfigurationName,
+        [Alias('ConfigurationName')]
+        [string]$Name,
 
         [Parameter(Mandatory = $False)]
         [string]$PageSize = 1000,
@@ -26,8 +28,8 @@ function Get-CwmConfiguration {
 
     $Conditions = @{}
 
-    if ($CompanyName) {
-        $Conditions.'company/name' = [System.Web.HttpUtility]::UrlEncode($CompanyName)
+    if ($Company) {
+        $Conditions.'company/name' = [System.Web.HttpUtility]::UrlEncode($Company)
     }
 
     if ($ConfigurationName) {
@@ -43,5 +45,15 @@ function Get-CwmConfiguration {
     }
 
     $ReturnValue = Invoke-CwmApiCall @ApiParams
-    $ReturnValue
+
+    $ReturnObject = @()
+    foreach ($r in $ReturnValue) {
+        $ThisObject = New-Object CwConfiguration
+        $ThisObject.ConfigurationName = $r.name
+        $ThisObject.ConfigurationId = $r.id
+        $ThisObject.FullData = $r
+        $ReturnObject += $ThisObject
+    }
+
+    $ReturnObject
 }
