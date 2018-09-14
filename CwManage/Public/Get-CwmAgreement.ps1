@@ -3,7 +3,8 @@ function Get-CwmAgreement {
     [OutputType([Agreement[]])]
     Param (
         [Parameter(Mandatory = $False, Position = 0, ValueFromPipelineByPropertyName = $True)]
-        [int]$CompanyId,
+        [Alias('CompanyId')]
+        [int]$Company,
 
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString,

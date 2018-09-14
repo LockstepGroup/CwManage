@@ -13,13 +13,16 @@ function New-CwmServiceTicket {
         [string]$InternalNotes,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $True)]
+        [Alias('ServiceBoardName')]
         [string]$ServiceBoard,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $True)]
-        [string]$CompanyId,
+        [Alias('CompanyId')]
+        [string]$Company,
 
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $True)]
-        [int]$AgreementId,
+        [Alias('AgreementId')]
+        [int]$Agreement,
 
         [Parameter(Mandatory = $true)]
         [string]$Status,
