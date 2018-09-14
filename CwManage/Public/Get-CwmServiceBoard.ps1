@@ -1,6 +1,6 @@
 function Get-CwmServiceBoard {
     [CmdletBinding()]
-
+    [OutputType([ServiceBoard[]])]
     Param (
         [Parameter(Mandatory = $False)]
         [string]$Name,
