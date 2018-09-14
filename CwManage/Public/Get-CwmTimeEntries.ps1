@@ -2,8 +2,9 @@ function Get-CwmTimeEntries {
     [CmdletBinding()]
 
     Param (
-        [Parameter(Mandatory = $False)]
-        [string]$AgreementId,
+        [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
+        [Alias('AgreementId')]
+        [string]$Agreement,
 
         [Parameter(Mandatory = $False)]
         [string[]]$Member,

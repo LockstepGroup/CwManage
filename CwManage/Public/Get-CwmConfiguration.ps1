@@ -6,7 +6,7 @@ function Get-CwmConfiguration {
         [Alias('CompanyName')]
         [string]$Company,
 
-        [Parameter(Mandatory = $False)]
+        [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
         [Alias('ConfigurationName')]
         [string]$Name,
 
