@@ -58,7 +58,7 @@ Accept wildcard characters: False
 ```yaml
 Type: String
 Parameter Sets: NoId
-Aliases:
+Aliases: CompanyName
 
 Required: False
 Position: Named
@@ -133,7 +133,7 @@ Accept wildcard characters: False
 ```yaml
 Type: Int32[]
 Parameter Sets: Id
-Aliases: Id
+Aliases: TicketId
 
 Required: False
 Position: Named

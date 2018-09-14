@@ -13,8 +13,8 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-CwmConfiguration [[-CompanyName] <String>] [[-ConfigurationName] <String>] [[-PageSize] <String>]
- [[-AuthString] <String>] [<CommonParameters>]
+Get-CwmConfiguration [-Company <String>] [-Name <String>] [[-PageSize] <String>] [[-AuthString] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -46,36 +46,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -CompanyName
-{{Fill CompanyName Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ConfigurationName
-{{Fill ConfigurationName Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -PageSize
 {{Fill PageSize Description}}
 
@@ -88,6 +58,36 @@ Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Company
+{{Fill Company Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: CompanyName
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Name
+{{Fill Name Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: ConfigurationName
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

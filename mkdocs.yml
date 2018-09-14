@@ -14,4 +14,5 @@ pages:
     - Invoke-CwmApiCall: Invoke-CwmApiCall.md
     - New-CwmAuthString: New-CwmAuthString.md
     - New-CwmServiceTicket: New-CwmServiceTicket.md
+    - Set-CwmServiceTicket: Set-CwmServiceTicket.md
 

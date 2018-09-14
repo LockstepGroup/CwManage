@@ -13,8 +13,8 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-CwmTimeEntries [[-AgreementId] <String>] [[-Member] <String[]>] [-PageSize <String>]
- [[-AuthString] <String>] [<CommonParameters>]
+Get-CwmTimeEntries [-Agreement <String>] [[-Member] <String[]>] [-PageSize <String>] [[-AuthString] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,21 +30,6 @@ PS C:\> {{ Add example code here }}
 {{ Add example description here }}
 
 ## PARAMETERS
-
-### -AgreementId
-{{Fill AgreementId Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -AuthString
 {{Fill AuthString Description}}
@@ -88,6 +73,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Agreement
+{{Fill Agreement Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: AgreementId
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

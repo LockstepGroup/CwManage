@@ -14,8 +14,9 @@ schema: 2.0.0
 
 ```
 New-CwmServiceTicket [-Summary] <String> [[-Description] <String>] [[-InternalNotes] <String>]
- [-ServiceBoard] <String> [-CompanyId] <String> [[-Agreement] <String>] [-Status] <String> [-Type] <String>
- [-Subtype] <String> [-Item] <String> [[-AuthString] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-ServiceBoard] <String> -Company <String> [[-Agreement] <Int32>] [-Status] <String> [-Type] <String>
+ [-Subtype] <String> [-Item] <String> -Configuration <Int32> [[-AuthString] <String>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,9 +37,9 @@ PS C:\> {{ Add example code here }}
 {{Fill Agreement Description}}
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
-Aliases:
+Aliases: AgreementId
 
 Required: False
 Position: 5
@@ -59,21 +60,6 @@ Required: False
 Position: 10
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CompanyId
-{{Fill CompanyId Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 4
-Default value: None
-Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -143,7 +129,7 @@ Accept wildcard characters: False
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ServiceBoardName
 
 Required: True
 Position: 3
@@ -225,6 +211,36 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Company
+{{Fill Company Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: CompanyId
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Configuration
+{{Fill Configuration Description}}
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases: ConfigurationId
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
