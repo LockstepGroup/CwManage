@@ -25,14 +25,9 @@ function Get-CwmServiceBoard {
 
     $Conditions = @{}
 
-    if ($AgreementId) {
-        $Conditions.'agreement/id' = $AgreementId
+    if ($Name) {
+        $Conditions.'name' = $Name
     }
-
-    if ($Member) {
-        $Conditions.'member/identifier' = $Member
-    }
-
 
     $ApiParams = @{}
     $ApiParams.Uri = $Uri

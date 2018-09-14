@@ -82,7 +82,7 @@ function New-CwmServiceTicket {
 
     if ($Agreement) {
         $ApiParams.Body.Agreement = @{}
-        $ApiParams.Body.Agreement.Name = $Agreement
+        $ApiParams.Body.Agreement.Id = $Agreement
         $WhatIfMessage += "Agreement: $Agreement`r`n"
     }
 

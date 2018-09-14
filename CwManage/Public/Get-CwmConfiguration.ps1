@@ -2,13 +2,13 @@ function Get-CwmConfiguration {
     [CmdletBinding()]
 
     Param (
+        [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True, Position = 0)]
+        [Alias('ConfigurationName')]
+        [string]$Name,
+
         [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
         [Alias('CompanyName')]
         [string]$Company,
-
-        [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
-        [Alias('ConfigurationName')]
-        [string]$Name,
 
         [Parameter(Mandatory = $False)]
         [string]$PageSize = 1000,
@@ -32,8 +32,8 @@ function Get-CwmConfiguration {
         $Conditions.'company/name' = [System.Web.HttpUtility]::UrlEncode($Company)
     }
 
-    if ($ConfigurationName) {
-        $Conditions.'name' = [System.Web.HttpUtility]::UrlEncode($ConfigurationName)
+    if ($Name) {
+        $Conditions.'name' = [System.Web.HttpUtility]::UrlEncode($Name)
     }
 
     $ApiParams = @{}

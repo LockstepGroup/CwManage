@@ -51,12 +51,12 @@ Accept wildcard characters: False
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: ServiceBoard
 
 Required: False
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

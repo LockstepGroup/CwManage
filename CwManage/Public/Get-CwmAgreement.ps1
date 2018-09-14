@@ -27,8 +27,8 @@ function Get-CwmAgreement {
 
     $Conditions = @{}
 
-    if ($CompanyId) {
-        $Conditions.'company/id' = $CompanyId
+    if ($Company) {
+        $Conditions.'company/id' = $Company
     }
 
     if (!($ShowAll)) {

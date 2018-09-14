@@ -13,8 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-CwmAgreement [[-CompanyId] <Int32>] [-AuthString <String>] [-ShowAll] [-PageSize <String>]
- [<CommonParameters>]
+Get-CwmAgreement [-Company <Int32>] [-AuthString <String>] [-ShowAll] [-PageSize <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -46,21 +45,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -CompanyId
-{{Fill CompanyId Description}}
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 0
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -ShowAll
 {{Fill ShowAll Description}}
 
@@ -88,6 +72,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Company
+{{Fill Company Description}}
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases: CompanyId
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
