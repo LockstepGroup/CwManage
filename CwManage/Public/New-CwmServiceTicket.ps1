@@ -19,7 +19,7 @@ function New-CwmServiceTicket {
         [string]$CompanyId,
 
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $True)]
-        [string]$Agreement,
+        [int]$AgreementId,
 
         [Parameter(Mandatory = $true)]
         [string]$Status,
@@ -32,6 +32,10 @@ function New-CwmServiceTicket {
 
         [Parameter(Mandatory = $true)]
         [string]$Item,
+
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $True)]
+        [Alias('ConfigurationId')]
+        [int]$Configuration,
 
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString
@@ -105,7 +109,7 @@ function New-CwmServiceTicket {
 
     $WhatIfMessage += "Uri: $Uri"
 
-    $ApiParams.Body = $ApiParams.Body | ConvertTo-Json -Compress -Depth 4
+    $ApiParams.Body = $ApiParams.Body
 
     if ($PSCmdlet.ShouldProcess($WhatIfMessage)) {
         $ReturnValue = Invoke-CwmApiCall @ApiParams

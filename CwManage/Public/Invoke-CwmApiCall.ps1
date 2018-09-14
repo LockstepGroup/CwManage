@@ -15,7 +15,7 @@ function Invoke-CwmApiCall {
         [string]$Method = 'Get',
 
         [Parameter(Mandatory = $false, Position = 5)]
-        [string]$Body,
+        [HashTable]$Body,
 
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString
@@ -56,7 +56,7 @@ function Invoke-CwmApiCall {
     $RestParams.ContentType = $ContentType
     $RestParams.Method = $Method
     if ($Body) {
-        $RestParams.Body = $Body
+        $RestParams.Body = $Body | ConvertTo-Json -Compress -Depth 4
     }
 
     $JsonResponse = Invoke-RestMethod @RestParams

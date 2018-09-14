@@ -3,7 +3,7 @@ function Get-CwmServiceTicket {
 
     Param (
         [Parameter(Mandatory = $False, ParameterSetName = 'Id')]
-        [Alias('Id')]
+        [Alias('TicketId')]
         [int[]]$TicketNumber,
 
         [Parameter(Mandatory = $False, ParameterSetName = 'NoId')]
@@ -16,6 +16,7 @@ function Get-CwmServiceTicket {
         [string]$ServiceBoard,
 
         [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True, ParameterSetName = 'NoId')]
+        [Alias('CompanyName')]
         [string]$Company,
 
         [Parameter(Mandatory = $False, ParameterSetName = 'NoId')]
@@ -63,7 +64,16 @@ function Get-CwmServiceTicket {
             if ($Conditions.Count -gt 0) { $ApiParams.Conditions = $Conditions }
 
             $ReturnValue = Invoke-CwmApiCall @ApiParams
-            $ReturnValue
+
+            $ReturnObject = @()
+            foreach ($r in $ReturnValue) {
+                $ThisObject = New-Object ServiceTicket
+                $ThisObject.TicketId = $r.id
+                $ThisObject.FullData = $r
+                $ReturnObject += $ThisObject
+            }
+
+            $ReturnObject
         }
         'Id' {
             $ReturnObject = @()
@@ -72,9 +82,9 @@ function Get-CwmServiceTicket {
                 $ApiParams.Uri = $ThisUri
                 $ReturnValue = Invoke-CwmApiCall @ApiParams
                 $ThisObject = New-Object ServiceTicket
-                $ThisObject.ServiceTicket = $ReturnValue.Id
+                $ThisObject.TicketId = $ReturnValue.Id
                 $ThisObject.FullData = $ReturnValue
-                $ReturnObject += $ReturnValue
+                $ReturnObject += $ThisObject
             }
             $ReturnObject
         }

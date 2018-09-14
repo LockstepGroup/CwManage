@@ -1,5 +1,5 @@
 class Company {
-    [string]$Company
+    [string]$CompanyName
     [int]$CompanyId
     $FullData
 
