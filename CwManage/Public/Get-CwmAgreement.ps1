@@ -3,8 +3,7 @@ function Get-CwmAgreement {
     [OutputType([Agreement[]])]
     Param (
         [Parameter(Mandatory = $False, Position = 0, ValueFromPipelineByPropertyName = $True)]
-        [Alias('CompanyId')]
-        [int]$Company,
+        [int]$CompanyId,
 
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString,
@@ -27,8 +26,8 @@ function Get-CwmAgreement {
 
     $Conditions = @{}
 
-    if ($Company) {
-        $Conditions.'company/id' = $Company
+    if ($CompanyId) {
+        $Conditions.'company/id' = $CompanyId
     }
 
     if (!($ShowAll)) {

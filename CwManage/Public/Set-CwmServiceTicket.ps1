@@ -7,8 +7,7 @@ function Set-CwmServiceTicket {
         [int[]]$TicketNumber,
 
         [Parameter(Mandatory = $True, ValueFromPipelineByPropertyName = $True)]
-        [Alias('ConfigurationId')]
-        [int[]]$Configuration,
+        [int[]]$ConfigurationId,
 
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString
@@ -30,7 +29,7 @@ function Set-CwmServiceTicket {
     $WhatIfMessage += "Updating Service Ticket`r`n"
 
     $ReturnObject = @()
-    foreach ($config in $Configuration) {
+    foreach ($config in $ConfigurationId) {
         $ApiParams.Body.Id = $config
         foreach ($ticket in $TicketNumber) {
             $ApiParams.Uri += '/' + $ticket + '/configurations'

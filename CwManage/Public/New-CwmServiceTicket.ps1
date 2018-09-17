@@ -17,12 +17,10 @@ function New-CwmServiceTicket {
         [string]$ServiceBoard,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $True)]
-        [Alias('CompanyId')]
-        [string]$Company,
+        [string]$CompanyId,
 
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $True)]
-        [Alias('AgreementId')]
-        [int]$Agreement,
+        [int]$AgreementId,
 
         [Parameter(Mandatory = $true)]
         [string]$Status,
@@ -37,8 +35,7 @@ function New-CwmServiceTicket {
         [string]$Item,
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $True)]
-        [Alias('ConfigurationId')]
-        [int]$Configuration,
+        [int]$ConfigurationId,
 
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString
@@ -82,8 +79,8 @@ function New-CwmServiceTicket {
 
     if ($Agreement) {
         $ApiParams.Body.Agreement = @{}
-        $ApiParams.Body.Agreement.Id = $Agreement
-        $WhatIfMessage += "Agreement: $Agreement`r`n"
+        $ApiParams.Body.Agreement.Id = $AgreementId
+        $WhatIfMessage += "AgreementId: $AgreementId`r`n"
     }
 
     if ($Status) {
@@ -115,7 +112,20 @@ function New-CwmServiceTicket {
     $ApiParams.Body = $ApiParams.Body
 
     if ($PSCmdlet.ShouldProcess($WhatIfMessage)) {
-        $ReturnValue = Invoke-CwmApiCall @ApiParams
+        $CreateTicket = Invoke-CwmApiCall @ApiParams
+        $ReturnValue = New-Object ServiceTicket
+        $ReturnValue.TicketId = $CreateTicket.Id
+
+        # Attach a configuratin if desired
+        if ($ConfigurationId) {
+            $ApiParams.Uri += '/' + $ReturnValue.TicketId + '/configurations'
+
+            $ApiParams.Body = @{}
+            $ApiParams.Body.Id = $ConfigurationId
+            $AddConfiguration = Invoke-CwmApiCall @ApiParams
+        }
+
+        $ReturnValue = Get-CwmServiceTicket -TicketNumber $ReturnValue.TicketId
         $ReturnValue
     }
 }
