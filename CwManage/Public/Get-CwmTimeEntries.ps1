@@ -3,8 +3,7 @@ function Get-CwmTimeEntries {
 
     Param (
         [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
-        [Alias('AgreementId')]
-        [int]$Agreement,
+        [int]$AgreementId,
 
         [Parameter(Mandatory = $False)]
         [string[]]$Member,
@@ -28,8 +27,8 @@ function Get-CwmTimeEntries {
 
     $Conditions = @{}
 
-    if ($Agreement) {
-        $Conditions.'agreement/id' = $Agreement
+    if ($AgreementId) {
+        $Conditions.'agreement/id' = $AgreementId
     }
 
     if ($Member) {

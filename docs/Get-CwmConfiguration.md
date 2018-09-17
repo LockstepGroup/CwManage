@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-CwmConfiguration [-Company <String>] [-Name <String>] [[-PageSize] <String>] [[-AuthString] <String>]
+Get-CwmConfiguration [-Name <String>] [-Company <String>] [[-PageSize] <String>] [[-AuthString] <String>]
  [<CommonParameters>]
 ```
 

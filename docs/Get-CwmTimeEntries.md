@@ -8,31 +8,54 @@ schema: 2.0.0
 # Get-CwmTimeEntries
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Retrieves Time Entries from ConnectWise Manage.
 
 ## SYNTAX
 
 ```
-Get-CwmTimeEntries [-Agreement <String>] [[-Member] <String[]>] [-PageSize <String>] [[-AuthString] <String>]
- [<CommonParameters>]
+Get-CwmTimeEntries [[-AgreementId] <Int32>] [[-Member] <String[]>] [-PageSize <String>]
+ [[-AuthString] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+Retrieves Time Entries from ConnectWise Manage. Can specify to return only entries for Member(s) of Argreement Id.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-CwmTimeEntries -Member 'tstark','bbanner'
 ```
 
-{{ Add example description here }}
+Returns first 1000 Time Entries for users tstark and bbanner.
+
+### Example 2
+```powershell
+PS C:\> $Agreement = Get-CwmAgreement 1
+PS C:\> $Agreement | Get-CwmTimeEntries -Member 'tstark','bbanner' -PageSize 10
+```
+
+Returns first 10 Time Entries for users tstark and bbanner applied towards any agreement for Company with Id of 1.
 
 ## PARAMETERS
 
+### -AgreementId
+Agreement Id Number (use Get-CwmAgreement to obtain them)
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -AuthString
-{{Fill AuthString Description}}
+Authstring created with Get-CwmAuthString, will default to $global:CwAuthString
 
 ```yaml
 Type: String
@@ -47,7 +70,7 @@ Accept wildcard characters: False
 ```
 
 ### -Member
-{{Fill Member Description}}
+Member identifier
 
 ```yaml
 Type: String[]
@@ -62,7 +85,7 @@ Accept wildcard characters: False
 ```
 
 ### -PageSize
-{{Fill PageSize Description}}
+Number of results to return
 
 ```yaml
 Type: String
@@ -73,21 +96,6 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Agreement
-{{Fill Agreement Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: AgreementId
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

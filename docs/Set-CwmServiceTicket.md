@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Set-CwmServiceTicket [-TicketNumber] <Int32[]> [-Configuration] <Int32[]> [[-AuthString] <String>] [-WhatIf]
+Set-CwmServiceTicket [-TicketNumber] <Int32[]> [-ConfigurationId] <Int32[]> [[-AuthString] <String>] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
 
@@ -46,13 +46,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Configuration
-{{Fill Configuration Description}}
+### -ConfigurationId
+{{Fill ConfigurationId Description}}
 
 ```yaml
 Type: Int32[]
 Parameter Sets: (All)
-Aliases: ConfigurationId
+Aliases:
 
 Required: True
 Position: 1

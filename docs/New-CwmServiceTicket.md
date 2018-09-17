@@ -14,8 +14,8 @@ schema: 2.0.0
 
 ```
 New-CwmServiceTicket [-Summary] <String> [[-Description] <String>] [[-InternalNotes] <String>]
- [-ServiceBoard] <String> -Company <String> [[-Agreement] <Int32>] [-Status] <String> [-Type] <String>
- [-Subtype] <String> [-Item] <String> -Configuration <Int32> [[-AuthString] <String>] [-WhatIf] [-Confirm]
+ [-ServiceBoard] <String> [-CompanyId] <String> [-AgreementId <Int32>] [-Status] <String> [-Type] <String>
+ [-Subtype] <String> [-Item] <String> -ConfigurationId <Int32> [[-AuthString] <String>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -33,21 +33,6 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Agreement
-{{Fill Agreement Description}}
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases: AgreementId
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -AuthString
 {{Fill AuthString Description}}
 
@@ -60,6 +45,21 @@ Required: False
 Position: 10
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CompanyId
+{{Fill CompanyId Description}}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 4
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -214,28 +214,28 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Company
-{{Fill Company Description}}
+### -AgreementId
+{{Fill AgreementId Description}}
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
-Aliases: CompanyId
+Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -Configuration
-{{Fill Configuration Description}}
+### -ConfigurationId
+{{Fill ConfigurationId Description}}
 
 ```yaml
 Type: Int32
 Parameter Sets: (All)
-Aliases: ConfigurationId
+Aliases:
 
 Required: True
 Position: Named

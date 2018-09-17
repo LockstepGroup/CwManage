@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-CwmApiCall
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Underlying Cmdlet used to create all api calls to ConnectWise Manage.
 
 ## SYNTAX
 
@@ -18,16 +18,24 @@ Invoke-CwmApiCall [-Uri] <String> [-QueryParams <Hashtable>] [-Conditions <Hasht
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+Underlying Cmdlet used to create all api calls to ConnectWise Manage. Can be used for API calls lacking a supporting Cmdlet.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Invoke-CwmApiCall -Uri https://example.connectwise.com/v4_6_release/apis/3.0/service/tickets -Method 'GET'
 ```
 
-{{ Add example description here }}
+Returns the first 25 (default pagesize for api calls) service tickets.
+
+### Example 2
+```powershell
+PS C:\> Invoke-CwmApiCall -Uri https://example.connectwise.com/v4_6_release/apis/3.0/service/tickets -Method 'GET' -QueryParams @{ 'pageSize' = 10 } -QueryParams = @{ 'company/name' = 'My Example Company" }
+
+```
+
+Returns the first 10 service tickets for My Example Company.
 
 ## PARAMETERS
 
