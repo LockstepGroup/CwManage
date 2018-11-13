@@ -1,42 +1,31 @@
-function Get-CwmAgreement {
+function Get-CwmProduct {
     [CmdletBinding()]
-    [OutputType([Agreement[]])]
-    Param (
-        [Parameter(Mandatory = $False, Position = 0, ValueFromPipelineByPropertyName = $True)]
-        [int]$CompanyId,
 
+    Param (
         [Parameter(Mandatory = $False)]
         [int]$OpportunityId,
 
-        [Parameter(Mandatory = $false)]
-        [string]$AuthString = $global:CwAuthString,
+        [Parameter(Mandatory = $False)]
+        [string]$PageSize = 1000,
 
         [Parameter(Mandatory = $False)]
         [switch]$ShowAll,
 
-        [Parameter(Mandatory = $False)]
-        [string]$PageSize = 1000
+        [Parameter(Mandatory = $false)]
+        [string]$AuthString = $global:CwAuthString
     )
 
-    $VerbosePrefix = "Get-CwmAgreement:"
+    $VerbosePrefix = "Get-CwmProduct:"
 
     $Uri = "https://api-na.myconnectwise.net/"
     $Uri += 'v4_6_Release/apis/3.0/'
-    $Uri += "finance/agreements"
+    $Uri += "procurement/products"
 
     $QueryParams = @{}
     $QueryParams.page = 1
     $QueryParams.pageSize = $PageSize
 
     $Conditions = @{}
-
-    if ($CompanyId) {
-        $Conditions.'company/id' = $CompanyId
-    }
-
-    if (!($ShowAll)) {
-        $Conditions.'noEndingDateFlag' = $true
-    }
 
     if ($OpportunityId) {
         $Conditions.'opportunity/id' = $OpportunityId
@@ -52,7 +41,9 @@ function Get-CwmAgreement {
 
     $ReturnValue = Invoke-CwmApiCall @ApiParams
     if ($ShowAll) {
-        if ($ReturnValue.Count -eq $PageSize) {
+        $KeepGoing = $true
+        Write-Verbose ($QueryParams.page * $PageSize)
+        while ($ReturnValue.Count -eq ($QueryParams.page * $PageSize)) {
             $QueryParams.page++
             $ApiParams.QueryParams = $QueryParams
             $MoreValues = Invoke-CwmApiCall @ApiParams
@@ -62,9 +53,15 @@ function Get-CwmAgreement {
 
     $ReturnObject = @()
     foreach ($r in $ReturnValue) {
-        $ThisObject = New-Object Agreement
-        $ThisObject.AgreementId = $r.id
+        $ThisObject = New-Object Product
+        $ThisObject.ProductId = $r.id
         $ThisObject.FullData = $r
+        $ThisObject.Price = $r.price
+        $ThisObject.Quantity = $r.quantity
+        $ThisObject.TotalPrice = $r.price * $r.quantity
+        $ThisObject.Cost = $r.cost
+        $ThisObject.TotalCost = $r.cost * $r.quantity
+        $ThisObject.ProductClass = $r.productClass
         $ReturnObject += $ThisObject
     }
 

@@ -1,9 +1,12 @@
-function Get-CwmCompany {
+function Get-CwmMember {
     [CmdletBinding()]
 
     Param (
-        [Parameter(Mandatory = $False, Position = 0)]
-        [string]$Name,
+        [Parameter(Mandatory = $False)]
+        [int]$MemberId,
+
+        [Parameter(Mandatory = $False)]
+        [string]$Identifier,
 
         [Parameter(Mandatory = $False)]
         [string]$PageSize = 1000,
@@ -15,11 +18,11 @@ function Get-CwmCompany {
         [string]$AuthString = $global:CwAuthString
     )
 
-    $VerbosePrefix = "Get-CwmCompany:"
+    $VerbosePrefix = "Get-CwmActivity:"
 
     $Uri = "https://api-na.myconnectwise.net/"
     $Uri += 'v4_6_Release/apis/3.0/'
-    $Uri += "company/companies"
+    $Uri += "system/members"
 
     $QueryParams = @{}
     $QueryParams.page = 1
@@ -27,8 +30,12 @@ function Get-CwmCompany {
 
     $Conditions = @{}
 
-    if ($Name) {
-        $Conditions.'name' = $Name
+    if ($MemberId) {
+        $Conditions.'id' = $MemberId
+    }
+
+    if ($Identifier) {
+        $Conditions.'identifier' = $Identifier
     }
 
     $ApiParams = @{}
@@ -52,12 +59,18 @@ function Get-CwmCompany {
     }
 
     $ReturnObject = @()
-    foreach ($r in $ReturnValue) {
-        $ThisObject = New-Object Company
-        $ThisObject.CompanyName = $r.name
-        $ThisObject.CompanyId = $r.id
-        $ThisObject.FullData = $r
-        $ReturnObject += $ThisObject
+    if ($ReturnValue) {
+        foreach ($r in $ReturnValue) {
+            $ThisObject = New-Object Member
+            $ThisObject.MemberId = $r.id
+            $ThisObject.FullData = $r
+            $ThisObject.FirstName = $r.firstName
+            $ThisObject.LastName = $r.lastName
+            $ThisObject.Identifier = $r.identifier
+            $ReturnObject += $ThisObject
+        }
+    } else {
+        $ReturnObject = $false
     }
 
     $ReturnObject
