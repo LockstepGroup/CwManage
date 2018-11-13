@@ -14,7 +14,7 @@ class HelperWeb {
 
     static [string] formatConditionValue ($value) {
         if ($value.GetType().Name -eq 'String') {
-            $formatedValue = '"' + [System.Web.HttpUtility]::UrlEncode($value) + '"'
+            $formatedValue = '"' + [System.Uri]::EscapeDataString($value) + '"'
             return $formatedValue
         } else {
             return $value
