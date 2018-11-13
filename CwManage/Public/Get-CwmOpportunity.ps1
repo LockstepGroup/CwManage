@@ -85,20 +85,20 @@ function Get-CwmOpportunity {
         $ThisObject.ContactName = $r.contact.name
 
         $CompanyInfo = $Companies | Where-Object { $_.CompanyName -eq $ThisObject.Company }
-        $Global:compinfo = $CompanyInfo
 
         # Forecast
         $Uri = "https://api-na.myconnectwise.net/v4_6_Release/apis/3.0/sales/opportunities/$($ThisObject.OpportunityId)/forecast"
         $Forecast = Invoke-CwmApiCall -Uri $Uri -Verbose:$false
-        $ThisObject.Revenue = $Forecast.revenue
 
-        $ForecastType = $Forecast.Type
-
-        if (($ForecastType -ne '') -and ($null -ne $ForecastType)) {
-            $ThisObject.$ForecastType = $Forecast.revenue
-            $ForecastStatus = $Forecast.status.name
-            $ThisObject.$ForecastStatus = $Forecast.revenue
-            $ThisObject.Margin = $Forecast.margin
+        if ($Forecast) {
+            foreach ($f in $Forecast) {
+                $ThisObject.Revenue += $f.revenue
+                $ForecastType = $f.Type
+                $ThisObject.$ForecastType += $f.revenue
+                $ForecastStatus = $f.status.name
+                $ThisObject.$ForecastStatus += $f.revenue
+                $ThisObject.Margin += $f.margin
+            }
         }
 
         # Product Info
@@ -154,6 +154,7 @@ function Get-CwmOpportunity {
 
         $ThisObject.Age = ((Get-Date) - (Get-Date $r.dateBecameLead)).Days
 
+        # Didn't have any good sample data for this.
         # $ThisObject.Lost
         # $ThisObject.Time
         # $ThisObject.Other
