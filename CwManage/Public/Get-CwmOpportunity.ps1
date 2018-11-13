@@ -1,0 +1,191 @@
+function Get-CwmOpportunity {
+    [CmdletBinding()]
+    [OutputType([Opportunity[]])]
+    Param (
+        [Parameter(Mandatory = $False, Position = 0)]
+        [int]$OpportunityId,
+
+        [Parameter(Mandatory = $false)]
+        [string]$AuthString = $global:CwAuthString,
+
+        [Parameter(Mandatory = $False)]
+        [string]$Status,
+
+        [Parameter(Mandatory = $False)]
+        [string]$PageSize = 1000
+    )
+
+    $VerbosePrefix = "Get-CwmOpportunity:"
+
+    $Uri = "https://api-na.myconnectwise.net/"
+    $Uri += 'v4_6_Release/apis/3.0/'
+    $Uri += "sales/opportunities"
+
+    $QueryParams = @{}
+    $QueryParams.pageSize = $PageSize
+
+    $Conditions = @{}
+
+    if ($OpportunityId) {
+        $Conditions.'id' = $OpportunityId
+    }
+
+    if ($Status) {
+        $Conditions.'status/name' = $Status
+    }
+
+    $ApiParams = @{}
+    $ApiParams.Uri = $Uri
+    $ApiParams.AuthString = $AuthString
+    $ApiParams.QueryParams = $QueryParams
+    if ($Conditions.Count -gt 0) {
+        $ApiParams.Conditions = $Conditions
+    }
+
+    $ReturnValue = Invoke-CwmApiCall @ApiParams
+
+    # Lookup info needed later
+    $Uri = 'https://api-na.myconnectwise.net/v4_6_Release/apis/3.0/system/members'
+    Write-Verbose "$VerbosePrefix Retrieving Member info"
+    $Members = Invoke-CwmApiCall -Uri $Uri
+    Write-Verbose "$VerbosePrefix Retrieving Company info"
+    $Companies = Get-CwmCompany -ShowAll
+    $Departments = Invoke-CwmApiCall -Uri "https://api-na.myconnectwise.net/v4_6_release/apis/3.0/system/departments"
+    $Locations = Invoke-CwmApiCall -Uri "https://api-na.myconnectwise.net/v4_6_release/apis/3.0/system/info/locations"
+
+    Write-Verbose "$VerbosePrefix Retrieving Opportunity info"
+
+    $TotalLines = $ReturnValue.Count
+    $i = 0
+    $StopWatch = [System.Diagnostics.Stopwatch]::StartNew() # used by Write-Progress so it doesn't slow the whole function down
+
+
+    $ReturnObject = @()
+    foreach ($r in $ReturnValue) {
+        Write-Verbose "$VerbosePrefix OpportunityId: $($r.id)"
+
+        $i++
+        if ($StopWatch.Elapsed.TotalMilliseconds -ge 1000) {
+            $PercentComplete = [math]::truncate($i / $TotalLines * 100)
+            Write-Progress -Activity "Reading Support Output" -Status "$PercentComplete% $i/$TotalLines" -PercentComplete $PercentComplete
+            $StopWatch.Reset()
+            $StopWatch.Start()
+        }
+
+
+
+
+        $ThisObject = New-Object Opportunity
+        $ThisObject.OpportunityId = $r.id
+        $ThisObject.FullData = $r
+
+        $ThisObject.Summary = $r.name
+        $ThisObject.Status = $r.status.name
+        $ThisObject.Company = $r.company.name
+        $ThisObject.ContactName = $r.contact.name
+
+        $CompanyInfo = $Companies | Where-Object { $_.CompanyName -eq $ThisObject.Company }
+        $Global:compinfo = $CompanyInfo
+
+        # Forecast
+        $Uri = "https://api-na.myconnectwise.net/v4_6_Release/apis/3.0/sales/opportunities/$($ThisObject.OpportunityId)/forecast"
+        $Forecast = Invoke-CwmApiCall -Uri $Uri -Verbose:$false
+        $ThisObject.Revenue = $Forecast.revenue
+
+        $ForecastType = $Forecast.Type
+
+        if (($ForecastType -ne '') -and ($null -ne $ForecastType)) {
+            $ThisObject.$ForecastType = $Forecast.revenue
+            $ForecastStatus = $Forecast.status.name
+            $ThisObject.$ForecastStatus = $Forecast.revenue
+            $ThisObject.Margin = $Forecast.margin
+        }
+
+        # Product Info
+        # this seems to be necessary for any opp with multiple types of revenue (Service, Product, etc)
+        $Product = Get-CwmProduct -OpportunityId $r.id
+        foreach ($p in $Product) {
+            switch ($p.ProductClass) {
+                'Service' {
+                    $ThisObject.Service += $p.TotalPrice
+                    $ThisObject.Revenue += $p.TotalPrice
+                    $ThisObject.Open += $p.TotalPrice
+
+                    $ThisObject.Margin += $p.TotalPrice
+                    $ThisObject.Margin -= $p.TotalCost
+                }
+                'NonInventory' {
+                    $ThisObject.Product += $p.TotalPrice
+                    $ThisObject.Revenue += $p.TotalPrice
+                    $ThisObject.Open += $p.TotalPrice
+
+                    $ThisObject.Margin += $p.TotalPrice
+                    $ThisObject.Margin -= $p.TotalCost
+                }
+            }
+
+            if ($p.FullData.recurring) {
+                $ThisObject.Recurring += $p.TotalPrice
+                $ThisObject.Revenue += $p.TotalPrice
+                $ThisObject.Margin += $p.TotalPrice
+                $ThisObject.Margin -= $p.TotalCost
+            }
+        }
+
+        # Expected
+        $ThisObject.ProbPercentage = $r.probability.name
+        $ThisObject.Expected = $ThisObject.Revenue * $ThisObject.ProbPercentage / 100
+
+        # Activity Info
+        $Activity = Get-CwmActivity -OpportunityId $r.id
+        if ($Activity) {
+            $ThisObject.NextStep = (Get-Date $Activity[0].DateStart -UFormat "%m/%d/%Y").ToString()
+            $ThisObject.NextStep += " " + $Activity[0].Name
+        } else {
+            $ThisObject.NextStep = "Add new activity"
+        }
+
+        # Site Info
+        $Site = Invoke-CwmApiCall $r.site._info.site_href
+        $ThisObject.City = $Site.City
+        $ThisObject.State = $Site.State
+
+        $ThisObject.CloseDate = $r.expectedCloseDate
+
+        $ThisObject.Age = ((Get-Date) - (Get-Date $r.dateBecameLead)).Days
+
+        # $ThisObject.Lost
+        # $ThisObject.Time
+        # $ThisObject.Other
+
+        $ThisObject.Stage = $r.stage.name
+
+        $ThisObject.Rating = $r.rating.name
+
+        $ThisObject.Territory = $CompanyInfo.FullData.territory.name
+
+        $ThisObject.SalesRep = $r.primarySalesRep.name
+        $ThisObject.InsideSales = $r.secondarySalesRep.name
+        $ThisObject.PreSalesEngineer = ($r.customFields | Where-Object { $_.caption -eq 'Pre-Sls Eng' }).value
+        $ThisObject.BusinessDevelopment = ($r.customFields | Where-Object { $_.caption -eq 'Business Development' }).value
+
+        $ThisObject.Type = $r.type.name
+        $ThisObject.Department = ($Departments | Where-Object { $_.id -eq $r.businessUnitId } ).Name
+        $ThisObject.Campaign = $r.campaign.name
+        $ThisObject.Location = ($Locations | Where-Object { $_.id -eq $r.locationId } ).Name
+        $ThisObject.Site = $r.site.name
+
+        if ($ThisObject.Won -eq $ThisObject.Revenue) {
+            $ThisObject.Converted = $true
+        } else {
+            $ThisObject.Converted = $false
+        }
+
+        $ThisObject.NewLogo = ($r.customFields | Where-Object { $_.caption -eq 'New Logo?' }).value
+        $ThisObject.SpiffEligible = ($r.customFields | Where-Object { $_.caption -eq 'Spiff Eligible?' }).value
+
+        $ReturnObject += $ThisObject
+    }
+
+    $ReturnObject
+}
