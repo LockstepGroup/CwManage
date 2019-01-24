@@ -29,11 +29,11 @@ function Get-CwmConfiguration {
     $Conditions = @{}
 
     if ($Company) {
-        $Conditions.'company/name' = [System.Web.HttpUtility]::UrlEncode($Company)
+        $Conditions.'company/name' = $Company
     }
 
     if ($Name) {
-        $Conditions.'name' = [System.Web.HttpUtility]::UrlEncode($Name)
+        $Conditions.'name' = $Name
     }
 
     $ApiParams = @{}

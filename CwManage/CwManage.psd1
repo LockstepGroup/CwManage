@@ -12,7 +12,7 @@
     RootModule        = 'CwManage.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.7'
+    ModuleVersion     = '0.0.8'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -69,7 +69,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = '*'
+    FunctionsToExport = @('Get-CwmActivity','Get-CwmAdjustment','Get-CwmAgreement','Get-CwmCompany','Get-CwmConfiguration','Get-CwmMember','Get-CwmOpportunity','Get-CwmProduct','Get-CwmServiceBoard','Get-CwmServiceTicket','Get-CwmSite','Get-CwmTimeEntries','Invoke-CwmApiCall','New-CwmAuthString','New-CwmServiceTicket','Set-CwmServiceTicket')
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport   = '*'
@@ -120,4 +120,6 @@
     # DefaultCommandPrefix = ''
 
 }
+
+
 
