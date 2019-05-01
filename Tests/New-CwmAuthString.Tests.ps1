@@ -24,4 +24,6 @@ InModuleScope $ENV:BHProjectName {
             New-CwmAuthString -CwCompany $CwCompany -CwPublicKey $CwPublicKey -CwPrivateKey $CwPrivateKey | Should be $MyAuthString
         }
     }
+
+    Assert-VerifiableMock
 }
