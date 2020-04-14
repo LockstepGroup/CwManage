@@ -69,7 +69,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @('Get-CwmActivity','Get-CwmAdjustment','Get-CwmAgreement','Get-CwmCompany','Get-CwmConfiguration','Get-CwmMember','Get-CwmOpportunity','Get-CwmProduct','Get-CwmServiceBoard','Get-CwmServiceTicket','Get-CwmSite','Get-CwmTimeEntries','Invoke-CwmApiCall','New-CwmAuthString','New-CwmServiceTicket','Set-CwmServiceTicket')
+    FunctionsToExport = '*'
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport   = '*'
