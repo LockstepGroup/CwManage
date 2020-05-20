@@ -18,7 +18,10 @@ function Invoke-CwmApiCall {
         [HashTable]$Body,
 
         [Parameter(Mandatory = $false)]
-        [string]$AuthString = $global:CwAuthString
+        [string]$AuthString = $global:CwmAuthString,
+
+        [Parameter(Mandatory = $false)]
+        [string]$ClientId = $global:CwmClientId
     )
 
     $VerbosePrefix = "Invoke-CwmApiCall:"
@@ -27,6 +30,7 @@ function Invoke-CwmApiCall {
 
     $Headers = @{}
     $Headers.Authorization = "Basic $AuthString"
+    $Headers.clientid = $ClientId
 
     if ($Conditions) {
         Write-Verbose "$VerbosePrefix Conditions found, enumerating"

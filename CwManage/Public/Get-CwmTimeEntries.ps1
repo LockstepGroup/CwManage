@@ -45,5 +45,13 @@ function Get-CwmTimeEntries {
     }
 
     $ReturnValue = Invoke-CwmApiCall @ApiParams
-    $ReturnValue
+
+    $ReturnObject = @()
+    foreach ($r in $ReturnValue) {
+        $ThisObject = [TimeEntry]::new($r.id)
+        $ThisObject.FullData = $r
+        $ReturnObject += $ThisObject
+    }
+
+    $ReturnObject
 }
