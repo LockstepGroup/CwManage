@@ -24,20 +24,29 @@ class HelperWeb {
     static [string] createConditionString ([hashtable]$hashTable) {
         $i = 0
         $returnString = ""
+        $ConditionRx = [regex] '(?<operator>[=!<>]+)(?<value>.+)'
         foreach ($hash in $hashTable.GetEnumerator()) {
+            $ConditionMatch = $ConditionRx.Match($hash.Value)
+            if ($ConditionMatch.Success) {
+                $Operator = $ConditionMatch.Groups['operator'].Value
+                $ConditionValue = $ConditionMatch.Groups['value'].Value
+            } else {
+                $Operator = '='
+                $ConditionValue = $hash.Value
+            }
             $i++
             if ($hash.Value.GetType().BaseType.Name -eq 'Array') {
                 foreach ($v in $hash.Value) {
                     if ($returnString.Length -gt 0) {
                         $returnString += ' and '
                     }
-                    $returnString += $hash.Name + '=' + [HelperWeb]::formatConditionValue($hash.Value)
+                    $returnString += $hash.Name + $Operator + [HelperWeb]::formatConditionValue($ConditionValue)
                 }
             } else {
                 if ($returnString.Length -gt 0) {
                     $returnString += ' and '
                 }
-                $returnString += $hash.Name + '=' + [HelperWeb]::formatConditionValue($hash.Value)
+                $returnString += $hash.Name + $Operator + [HelperWeb]::formatConditionValue($ConditionValue)
             }
         }
         return $returnString

@@ -3,13 +3,13 @@ function New-CwmAuthString {
 
     Param (
         [Parameter(Mandatory = $false, Position = 0)]
-        [string]$CwCompany = $global:CwCompany,
+        [string]$CwCompany = $global:CwmCompany,
 
         [Parameter(Mandatory = $false, Position = 1)]
-        [string]$CwPublicKey = $global:CwPublicKey,
+        [string]$CwPublicKey = $global:CwmPublicKey,
 
         [Parameter(Mandatory = $false, Position = 2)]
-        [string]$CwPrivateKey = $global:CwPrivateKey
+        [string]$CwPrivateKey = $global:CwmPrivateKey
     )
 
     $VerbosePrefix = "New-CwmAuthString:"
