@@ -11,6 +11,7 @@ Class CwmProject {
     [string]$Manager
     [string]$Status
     [string]$BillingMethod
+    [string]$BudgetAnalysis
     [int]$BudgetHours
     [int]$ActualHours
     [int]$OpportunityId

@@ -84,6 +84,7 @@ function Get-CwmProject {
             $ThisObject.ActualHours = $r.actualHours
             $ThisObject.OpportunityId = $r.opportunity.id
             $ThisObject.BillingMethod = $r.billingMethod
+            $ThisObject.BudgetAnalysis = $r.budgetAnalysis
 
             $ReturnObject += $ThisObject
         }
