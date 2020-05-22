@@ -1,18 +1,8 @@
-function Get-CwmProject {
+function Get-CwmProjectPhase {
     [CmdletBinding()]
-    [OutputType([CwmProject[]])]
     Param (
-        [Parameter(Mandatory = $False, Position = 0, ValueFromPipelineByPropertyName = $True)]
-        [int]$ProjectId,
-
-        [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
-        [int]$CompanyId,
-
-        [Parameter(Mandatory = $False)]
-        [int]$OpportunityId,
-
-        [Parameter(Mandatory = $False)]
-        [string]$BoardName,
+        [Parameter(Mandatory = $True, Position = 0, ValueFromPipeline = $True)]
+        [CwmProject]$CwmProject,
 
         [Parameter(Mandatory = $False)]
         [hashtable]$Conditions,
@@ -26,8 +16,9 @@ function Get-CwmProject {
         [Parameter(Mandatory = $False)]
         [string]$PageSize = 1000
     )
+
     BEGIN {
-        $VerbosePrefix = "Get-CwmProject:"
+        $VerbosePrefix = "Get-CwmProjectPhase:"
 
         $ReturnObject = @()
     }
@@ -54,12 +45,12 @@ function Get-CwmProject {
             $Conditions.'board/name' = $BoardName
         }
 
-        if (-not $ShowAll) {
+        <# if (-not $ShowAll) {
             $Conditions.'closedFlag' = $false
-        }
+        } #>
 
         $ApiParams = @{}
-        $ApiParams.UriPath = 'project/projects'
+        $ApiParams.UriPath = 'project/projects/' + $CwmProject.ProjectId + '/phases'
         $ApiParams.Conditions = $Conditions
         $ApiParams.QueryParameters = @{}
         $ApiParams.QueryParameters.page = 1
@@ -68,23 +59,15 @@ function Get-CwmProject {
         $Response = Invoke-CwmApiQuery @ApiParams
 
         foreach ($r in $Response) {
-            $ThisObject = New-CwmProject
+            $ThisObject = New-CwmProjectPhase
             $ThisObject.FullData = $r
+            $ThisObject.Id = $r.id
 
-            $ThisObject.ProjectId = $r.id
-            $ThisObject.Name = $r.name
-            $ThisObject.Board = $r.board.name
-            $ThisObject.Company = $r.company.name
-            $ThisObject.CompanyShortName = $r.company.identifier
-            $ThisObject.Description = $r.Description
-            $ThisObject.Location = $r.location.name
-            $ThisObject.Manager = $r.manager.name
-            $ThisObject.Status = $r.status.name
+            $ThisObject.ProjectId = $r.projectId
+            $ThisObject.Description = $r.description
+            $ThisObject.Status = $r.status.Name
             $ThisObject.BudgetHours = $r.budgetHours
             $ThisObject.ActualHours = $r.actualHours
-            $ThisObject.OpportunityId = $r.opportunity.id
-            $ThisObject.BillingMethod = $r.billingMethod
-            $ThisObject.BudgetAnalysis = $r.budgetAnalysis
 
             $ReturnObject += $ThisObject
         }

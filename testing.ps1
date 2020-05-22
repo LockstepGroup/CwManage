@@ -12,6 +12,7 @@ $global:CwmAuthString = New-CwmAuthString #>
 Connect-CwmServer
 $Projects = Get-CwmProject -BoardName 'Professional Services Projects'
 $Projects += Get-CwmProject -BoardName 'Security'
+$Phases = $Projects[0] | Get-CwmProjectPhase
 
 <#
 $WrikeInput = @()
