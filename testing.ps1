@@ -14,6 +14,21 @@ $Projects = Get-CwmProject -BoardName 'Professional Services Projects'
 $Projects += Get-CwmProject -BoardName 'Security'
 $Phases = $Projects[0] | Get-CwmProjectPhase
 
+$ProjectTickets = $Projects[0] | Get-CwmProjectTicket
+
+$ReturnObject = @()
+foreach ($p in $Projects) {
+    $new = "" | Select Company,Project,ProjectId,PhaseCount
+    $new.Company = $p.Company
+    $new.ProjectId = $p.ProjectId
+    $new.Project = $p.Name
+
+    $Phases = $p | Get-CwmProjectPhase
+    $new.PhaseCount = ($Phases | ? { $_.Status -ne 'Closed' }).Count
+
+    $ReturnObject += $new
+}
+
 <#
 $WrikeInput = @()
 

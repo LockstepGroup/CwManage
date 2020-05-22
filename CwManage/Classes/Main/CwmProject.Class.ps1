@@ -1,4 +1,4 @@
-Class CwmProject {
+Class CwmProject:ICloneable {
     [int]$ProjectId
     $FullData
 
@@ -25,16 +25,14 @@ Class CwmProject {
 
     ########################################################################
     #endregion Initiators
-}
 
-<#
-Customer Name
-Customer Shortname
-Project Name
-Project Id
-Project Type (fixed fee, tm), comes from Finance/Billing Method
-Hours Budget
-Hours remaining
-CwLink if possible
-Status
-#>
+    # Clone
+    [Object] Clone () {
+        $CloneObject = [CwmProject]::New()
+        foreach ($Property in ($this | Get-Member -MemberType Property))
+        {
+            $CloneObject.$($Property.Name) = $this.$($Property.Name)
+        } # foreach
+        return $CloneObject
+    }
+}
