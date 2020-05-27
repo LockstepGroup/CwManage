@@ -80,6 +80,7 @@ function Get-CwmProject {
             $ThisObject.Location = $r.location.name
             $ThisObject.Manager = $r.manager.name
             $ThisObject.Status = $r.status.name
+            $ThisObject.Type = $r.type.name
             $ThisObject.BudgetHours = $r.budgetHours
             $ThisObject.ActualHours = $r.actualHours
             $ThisObject.OpportunityId = $r.opportunity.id
