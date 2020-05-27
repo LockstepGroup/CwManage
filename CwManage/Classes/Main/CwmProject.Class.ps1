@@ -12,6 +12,7 @@ Class CwmProject:ICloneable {
     [string]$Status
     [string]$BillingMethod
     [string]$BudgetAnalysis
+    [string]$Type
     [int]$BudgetHours
     [int]$ActualHours
     [int]$OpportunityId
