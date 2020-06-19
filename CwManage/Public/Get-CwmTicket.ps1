@@ -1,4 +1,4 @@
-function Get-CwmTicket {
+<# function Get-CwmTicket {
     [CmdletBinding()]
     [OutputType([Ticket[]])]
     Param (
@@ -74,4 +74,4 @@ function Get-CwmTicket {
     }
 
     $ReturnObject
-}
+} #>

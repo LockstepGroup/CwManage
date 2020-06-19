@@ -1,4 +1,4 @@
-function Set-CwmServiceTicket {
+<# function Set-CwmServiceTicket {
     [CmdletBinding(SupportsShouldProcess = $True)]
 
     Param (
@@ -44,3 +44,4 @@ function Set-CwmServiceTicket {
 
     $ReturnObject
 }
+ #>
