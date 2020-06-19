@@ -6,6 +6,7 @@ class CwmTimeEntry {
     [string]$Member
     [string]$Notes
     [decimal]$ActualHours
+    [datetime]$TimeStart
 
     [string]$TicketSummary
 

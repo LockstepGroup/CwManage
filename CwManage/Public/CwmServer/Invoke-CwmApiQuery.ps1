@@ -11,7 +11,10 @@ function Invoke-CwmApiQuery {
         [hashtable]$Conditions = @{},
 
         [Parameter(Mandatory = $false)]
-        [string]$Method = 'GET'
+        [string]$Method = 'GET',
+
+        [Parameter(Mandatory = $false)]
+        [string]$Body
     )
 
     BEGIN {

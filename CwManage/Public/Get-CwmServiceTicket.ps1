@@ -1,4 +1,4 @@
-function Get-CwmServiceTicket {
+<# function Get-CwmServiceTicket {
     [CmdletBinding(DefaultParametersetName = "NoId")]
 
     Param (
@@ -95,3 +95,4 @@ function Get-CwmServiceTicket {
 
 
 }
+ #>
