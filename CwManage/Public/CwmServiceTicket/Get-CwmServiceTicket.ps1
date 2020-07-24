@@ -57,6 +57,9 @@ function Get-CwmServiceTicket {
             $ThisObject.CompanyName = $r.company.name
             $ThisObject.Summary = $r.summary
 
+            $ThisObject.AgreementId = $r.agreement.id
+            $ThisObject.AgreementName = $r.agreement.name
+
             $ReturnObject += $ThisObject
         }
     }

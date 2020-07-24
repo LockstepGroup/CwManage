@@ -10,6 +10,35 @@ $global:CwmClientId = $global:CwClientId
 $global:CwmAuthString = New-CwmAuthString #>
 
 Connect-CwmServer
+
+$Tickets = Get-CwmServiceTicket -ServiceBoard 'Security'
+$Tickets += Get-CwmServiceTicket -ServiceBoard 'Professional Services'
+
+$AgreementTickets = $Tickets | Select-Object AgreementId -Unique | Where-Object { $_.AgreementId -gt 0 }
+$Agreements = @()
+
+foreach ($agreement in $AgreementTickets) {
+    $Agreements += Get-CwmAgreement -AgreementId $agreement.AgreementId
+}
+
+$TicketsWithAgreements = @()
+foreach ($ticket in $Tickets) {
+    if ($ticket.AgreementId -gt 0) {
+        $new = "" | Select-Object Company,TicketNumber,Summary,AgreementId,AgreementName,AgreementStatus
+        $new.Company = $ticket.CompanyName
+        $new.TicketNumber = $ticket.Id
+        $new.Summary = $ticket.Summary
+        $new.AgreementId = $ticket.AgreementId
+        $new.AgreementName = $ticket.AgreementName
+        $new.AgreementStatus = ($Agreements | Where-Object { $_.AgreementId -eq $ticket.AgreementId }).Status
+        $TicketsWithAgreements += $new
+    }
+}
+
+$TicketsWithAgreements | Sort-Object Company | ? { $_.AgreementStatus -ne 'Active' } | ft * -AutoSize
+
+
+<#
 #$Agreements = Get-CwmAgreement
 $ThisAgreement = $Agreements | ? { $_.Agreementid -eq 296}
 $ThisAgreement = $Agreements | ? { $_.Agreementid -eq 351}
@@ -203,10 +232,6 @@ $ManualAdjustments.267 = 45
 $i = 0
 $AllAvailable = @()
 foreach ($agreement in $Agreements) {
-    <# if ($agreement.ApplicationUnit -ne 'Hours') {
-        continue
-    } #>
-
     if ($agreement.CompanyName -eq 'Lockstep Technology Group') {
         continue
     }
