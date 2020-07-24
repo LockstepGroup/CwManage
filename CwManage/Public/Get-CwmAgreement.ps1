@@ -2,22 +2,25 @@ function Get-CwmAgreement {
     [CmdletBinding()]
     [OutputType([Agreement[]])]
     Param (
-        [Parameter(Mandatory = $False, Position = 0, ValueFromPipelineByPropertyName = $True)]
+        [Parameter(Mandatory = $False, Position = 0, ValueFromPipelineByPropertyName = $True, ParameterSetName = "NoId")]
         [int]$CompanyId,
 
-        [Parameter(Mandatory = $False)]
+        [Parameter(Mandatory = $False, Position = 0, ParameterSetName = "Id")]
+        [int]$AgreementId,
+
+        [Parameter(Mandatory = $False, ParameterSetName = "NoId")]
         [int]$OpportunityId,
 
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString,
 
-        [Parameter(Mandatory = $False)]
+        [Parameter(Mandatory = $False, ParameterSetName = "NoId")]
         [switch]$ShowAll,
 
-        [Parameter(Mandatory = $False)]
+        [Parameter(Mandatory = $False, ParameterSetName = "NoId")]
         [string]$Status = 'Active',
 
-        [Parameter(Mandatory = $False)]
+        [Parameter(Mandatory = $False, ParameterSetName = "NoId")]
         [string]$PageSize = 1000
     )
 
@@ -32,10 +35,16 @@ function Get-CwmAgreement {
     $QueryParams.pageSize = $PageSize
 
     $Conditions = @{}
-    $Conditions.agreementStatus = $Status
+    if (-not $AgreementId) {
+        $Conditions.agreementStatus = $Status
+    }
 
     if ($CompanyId) {
         $Conditions.'company/id' = $CompanyId
+    }
+
+    if ($AgreementId) {
+        $Conditions.'id' = $AgreementId
     }
 
     if (!($ShowAll)) {
