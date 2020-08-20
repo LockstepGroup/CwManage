@@ -57,6 +57,8 @@ function Get-CwmCompany {
             $ThisObject.FullData = $r
 
             $ThisObject.Id = $r.id
+            $ThisObject.Name = $r.name
+            $ThisObject.ShortName = $r.identifier
 
             $ReturnObject += $ThisObject
         }
