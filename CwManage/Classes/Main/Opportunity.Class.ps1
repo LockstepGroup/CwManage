@@ -1,4 +1,4 @@
-class Opportunity {
+<# class Opportunity {
     [int]$OpportunityId
     $FullData
 
@@ -50,4 +50,4 @@ class Opportunity {
     # Constructor with no parameter
     Opportunity() {
     }
-}
+} #>

@@ -35,7 +35,11 @@ Class CwmServer {
     # formatConditionValue
     [string] formatConditionValue ($value) {
         if ($value.GetType().Name -eq 'String') {
-            $formatedValue = '"' + [System.Uri]::EscapeDataString($value) + '"'
+            if ($value -match '\[.+\]') {
+                $formatedValue = [System.Uri]::EscapeDataString($value)
+            } else {
+                $formatedValue = '"' + [System.Uri]::EscapeDataString($value) + '"'
+            }
             return $formatedValue
         } else {
             return $value
@@ -48,7 +52,6 @@ Class CwmServer {
         $returnString = ""
         $ConditionRx = [regex] '(?<operator>[=!<>]+|like(?=\s))(?<value>.+)'
         foreach ($hash in $hashTable.GetEnumerator()) {
-            $global:hash = $hash
             $ConditionMatch = $ConditionRx.Match($hash.Value)
             if ($ConditionMatch.Success) {
                 $Operator = $ConditionMatch.Groups['operator'].Value

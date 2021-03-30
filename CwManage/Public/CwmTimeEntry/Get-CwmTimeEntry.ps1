@@ -5,6 +5,9 @@ function Get-CwmTimeEntry {
         [int]$AgreementId,
 
         [Parameter(Mandatory = $False)]
+        [hashtable]$Conditions,
+
+        [Parameter(Mandatory = $False)]
         [string]$PageSize = 1000,
 
         [Parameter(Mandatory = $False)]
@@ -19,7 +22,9 @@ function Get-CwmTimeEntry {
 
     PROCESS {
         # conditions
-        $Conditions = @{}
+        if (-not $Conditions) {
+            $Conditions = @{}
+        }
 
         if ($AgreementId) {
             $Conditions.'agreement/id' = $AgreementId
