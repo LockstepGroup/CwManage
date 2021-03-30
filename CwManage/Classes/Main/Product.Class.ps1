@@ -1,4 +1,4 @@
-class Product {
+<# class Product {
     [int]$ProductId
     $FullData
 
@@ -14,4 +14,4 @@ class Product {
     # Constructor with no parameter
     Product() {
     }
-}
+} #>

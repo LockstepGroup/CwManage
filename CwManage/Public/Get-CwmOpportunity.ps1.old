@@ -1,4 +1,4 @@
-function Get-CwmOpportunity {
+<# function Get-CwmOpportunity {
     [CmdletBinding()]
     [OutputType([Opportunity[]])]
     Param (
@@ -189,4 +189,4 @@ function Get-CwmOpportunity {
     }
 
     $ReturnObject
-}
+} #>
