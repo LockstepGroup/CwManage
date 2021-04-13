@@ -1,4 +1,4 @@
-function Get-CwmMember {
+<# function Get-CwmMember {
     [CmdletBinding()]
 
     Param (
@@ -74,4 +74,4 @@ function Get-CwmMember {
     }
 
     $ReturnObject
-}
+} #>

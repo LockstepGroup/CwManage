@@ -5,7 +5,32 @@ ipmo ./CwManage -Force
 
 Connect-CwmServer
 
-$Opp = Get-CwmOpportunity -OpportunityId 7685
+$InterestingEmployees =@()
+$InterestingEmployees += 'baddicks'
+$InterestingEmployees += 'bperez'
+$InterestingEmployees += 'cpurcell'
+$InterestingEmployees += 'dwilliams'
+$InterestingEmployees += 'fbyron'
+$InterestingEmployees += 'jkyle'
+$InterestingEmployees += 'jsanders'
+$InterestingEmployees += 'kwilson'
+$InterestingEmployees += 'mworley'
+$InterestingEmployees += 'msimpson'
+$InterestingEmployees += 'msmith'
+$InterestingEmployees += 'nmuragian'
+$InterestingEmployees += 'naddicks'
+$InterestingEmployees += 'pmcgann'
+$InterestingEmployees += 'prehkopf'
+$InterestingEmployees += 'pvance'
+$InterestingEmployees += 'sanctil'
+$InterestingEmployees += 'tstrish'
+$InterestingEmployees += 'vnettles'
+
+$Members = Get-CwmMember
+
+$InterestingMembers = $Members | Where-Object { $InterestingEmployees -contains $_.Identifier}
+
+<# $Opp = Get-CwmOpportunity -OpportunityId 7685
 $Product = Get-CwmProduct -OpportunityId 7685
 
 $UniqueProducts = $Product | Select-Object ProductId,CustomerDescription -Unique
@@ -21,4 +46,4 @@ foreach ($prod in $UniqueProducts) {
 
         $AllProducts += $New
     }
-}
+} #>
