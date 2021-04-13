@@ -52,7 +52,7 @@ function Get-CwmTimeEntry {
             $ThisObject.FullData = $r
 
             $ThisObject.CompanyName = $r.company.name
-            $ThisObject.Member = $r.member.name
+            $ThisObject.Member = $r.member.identifier
             $ThisObject.Notes = $r.notes
             $ThisObject.ActualHours = $r.actualHours
             $ThisObject.TicketSummary = $r.ticket.summary
