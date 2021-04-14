@@ -50,7 +50,7 @@ Class CwmServer {
     [string] createConditionString ([hashtable]$hashTable) {
         #$i = 0
         $returnString = ""
-        $ConditionRx = [regex] '(?<operator>[=!<>]+|like(?=\s))(?<value>.+)'
+        $ConditionRx = [regex] '(?<operator>[=!<>]+|(like|contains)(?=\s))(?<value>.+)'
         foreach ($hash in $hashTable.GetEnumerator()) {
             $ConditionMatch = $ConditionRx.Match($hash.Value)
             if ($ConditionMatch.Success) {
