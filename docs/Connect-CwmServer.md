@@ -5,20 +5,19 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-CwmConfiguration
+# Connect-CwmServer
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
-Get-CwmConfiguration [-Name <String>] [-Company <String>] [[-PageSize] <String>] [[-AuthString] <String>]
- [<CommonParameters>]
+Connect-CwmServer [[-AuthString] <String>] [[-ClientId] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -32,7 +31,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -AuthString
-{{Fill AuthString Description}}
+{{ Fill AuthString Description }}
 
 ```yaml
 Type: String
@@ -40,14 +39,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PageSize
-{{Fill PageSize Description}}
+### -ClientId
+{{ Fill ClientId Description }}
 
 ```yaml
 Type: String
@@ -55,39 +54,9 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Company
-{{Fill Company Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: CompanyName
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -Name
-{{Fill Name Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: ConfigurationName
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

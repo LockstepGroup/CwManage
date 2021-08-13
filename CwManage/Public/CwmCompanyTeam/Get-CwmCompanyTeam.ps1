@@ -1,11 +1,8 @@
-function Get-CwmCompany {
+function Get-CwmCompanyTeam {
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
+        [Parameter(Mandatory = $true)]
         [int]$CompanyId,
-
-        [Parameter(Mandatory = $False)]
-        [string]$CompanyName,
 
         [Parameter(Mandatory = $False)]
         [hashtable]$Conditions,
@@ -21,8 +18,7 @@ function Get-CwmCompany {
     )
 
     BEGIN {
-        $VerbosePrefix = "Get-CwmCompany:"
-
+        $VerbosePrefix = "Get-CwmCompanyTeam:"
         $ReturnObject = @()
     }
 
@@ -32,16 +28,8 @@ function Get-CwmCompany {
             $Conditions = @{}
         }
 
-        if ($CompanyId) {
-            $Conditions.'id' = $CompanyId
-        }
-
-        if ($CompanyName) {
-            $Conditions.name = $CompanyName
-        }
-
         $ApiParams = @{}
-        $ApiParams.UriPath = 'company/companies'
+        $ApiParams.UriPath = "/company/companies/$CompanyId/teams"
         $ApiParams.Conditions = $Conditions
         $ApiParams.QueryParameters = @{}
         $ApiParams.QueryParameters.page = 1
@@ -60,13 +48,16 @@ function Get-CwmCompany {
         }
 
         foreach ($r in $Response) {
-            $ThisObject = New-CwmCompany
+            $ThisObject = New-CwmCompanyTeamMember
             $ThisObject.FullData = $r
 
             $ThisObject.Id = $r.id
-            $ThisObject.Name = $r.name
-            $ThisObject.ShortName = $r.identifier
-            $ThisObject.Type = $r.types.name
+            $ThisObject.TeamRole = $r.teamRole.name
+            $ThisObject.MemberId = $r.member.identifier
+            $ThisObject.MemberName = $r.member.name
+            $ThisObject.AccountManager = $r.accountManagerFlag
+            $ThisObject.Tech = $r.techFlag
+            $ThisObject.Sales = $r.salesFlag
 
             $ReturnObject += $ThisObject
         }

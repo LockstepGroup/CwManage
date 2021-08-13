@@ -70,6 +70,7 @@ function Get-CwmMember {
             $ThisObject.FirstName = $r.firstName
             $ThisObject.LastName = $r.lastName
             $ThisObject.Identifier = $r.identifier
+            $ThisObject.PrimaryEmail = $r.primaryEmail
             $ThisObject.DefaultDepartment = $r.defaultDepartment.name
 
             $ReturnObject += $ThisObject

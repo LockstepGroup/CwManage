@@ -1,19 +1,20 @@
-Class CwmMember {
-    [int]$MemberId
+Class CwmCompanyTeamMember {
+    [int]$Id
     $FullData
 
-    [string]$FirstName
-    [string]$LastName
-    [string]$Identifier
-    [string]$DefaultDepartment
-    [string]$PrimaryEmail
+    [string]$TeamRole
+    [string]$MemberId
+    [string]$MemberName
+    [bool]$AccountManager
+    [bool]$Tech
+    [bool]$Sales
 
 
     #region Initiators
     ########################################################################
 
     # empty initiator
-    CwmMember() {
+    CwmCompanyTeamMember() {
     }
 
     ########################################################################

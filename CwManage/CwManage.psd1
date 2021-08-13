@@ -12,7 +12,7 @@
     RootModule        = 'CwManage.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.19'
+    ModuleVersion     = '0.0.20'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -69,7 +69,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @('Connect-CwmServer','Get-CwmActivity','Get-CwmAdjustment','Get-CwmAgreement','Get-CwmAuditTrail','Get-CwmCompany','Get-CwmConfiguration','Get-CwmMember','Get-CwmOpportunity','Get-CwmProduct','Get-CwmProject','Get-CwmProjectPhase','Get-CwmProjectTicket','Get-CwmServiceBoard','Get-CwmServiceTicket','Get-CwmSite','Get-CwmTimeEntry','Invoke-CwmApiCall','Invoke-CwmApiQuery','New-CwmAuditTrail','New-CwmAuthString','New-CwmProject','New-CwmProjectPhase','New-CwmProjectTicket','New-CwmServer','New-CwmServiceTicket','New-CwmTimeEntry')
+    FunctionsToExport = @('Connect-CwmServer','Get-CwmActivity','Get-CwmAdjustment','Get-CwmAgreement','Get-CwmAuditTrail','Get-CwmCompany','Get-CwmCompanyTeam','Get-CwmConfiguration','Get-CwmContact','Get-CwmMember','Get-CwmOpportunity','Get-CwmProduct','Get-CwmProject','Get-CwmProjectPhase','Get-CwmProjectTicket','Get-CwmServiceBoard','Get-CwmServiceTicket','Get-CwmSite','Get-CwmTimeEntry','Invoke-CwmApiCall','Invoke-CwmApiQuery','New-CwmAuditTrail','New-CwmAuthString','New-CwmCompany','New-CwmCompanyTeamMember','New-CwmContact','New-CwmMember','New-CwmOpportunity','New-CwmProduct','New-CwmProject','New-CwmProjectPhase','New-CwmProjectTicket','New-CwmServer','New-CwmServiceTicket','New-CwmTimeEntry','Remove-CwmContact','Set-CwmContact','Set-CwmProject')
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport   = '*'

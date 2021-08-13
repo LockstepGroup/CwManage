@@ -12,15 +12,9 @@ schema: 2.0.0
 
 ## SYNTAX
 
-### NoId (Default)
 ```
-Get-CwmServiceTicket [-Status <String[]>] [-NotStatus <String[]>] [-ServiceBoard <String>] [-Company <String>]
- [-PageSize <String>] [-AuthString <String>] [<CommonParameters>]
-```
-
-### Id
-```
-Get-CwmServiceTicket [-TicketNumber <Int32[]>] [-AuthString <String>] [<CommonParameters>]
+Get-CwmServiceTicket [-ServiceBoard <String>] [-Conditions <Hashtable>] [-ShowAll] [-AuthString <String>]
+ [-PageSize <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -52,42 +46,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Company
-{{Fill Company Description}}
-
-```yaml
-Type: String
-Parameter Sets: NoId
-Aliases: CompanyName
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -NotStatus
-{{Fill NotStatus Description}}
-
-```yaml
-Type: String[]
-Parameter Sets: NoId
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -PageSize
 {{Fill PageSize Description}}
 
 ```yaml
 Type: String
-Parameter Sets: NoId
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -102,22 +66,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: NoId
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -Status
-{{Fill Status Description}}
-
-```yaml
-Type: String[]
-Parameter Sets: NoId
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -127,13 +76,28 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -TicketNumber
-{{Fill TicketNumber Description}}
+### -Conditions
+{{ Fill Conditions Description }}
 
 ```yaml
-Type: Int32[]
-Parameter Sets: Id
-Aliases: TicketId
+Type: Hashtable
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ShowAll
+{{ Fill ShowAll Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
@@ -143,7 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

@@ -1,23 +1,23 @@
 ---
 external help file: CwManage-help.xml
-Module Name: cwmanage
+Module Name: CwManage
 online version:
 schema: 2.0.0
 ---
 
-# New-CwmServiceTicket
+# Set-CwmProject
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
-New-CwmServiceTicket [<CommonParameters>]
+Set-CwmProject [[-CwmProject] <CwmProject>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -30,12 +30,27 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
+### -CwmProject
+{{ Fill CwmProject Description }}
+
+```yaml
+Type: CwmProject
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### System.String
+### CwmProject
 ## OUTPUTS
 
 ### System.Object

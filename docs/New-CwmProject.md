@@ -1,23 +1,23 @@
 ---
 external help file: CwManage-help.xml
-Module Name: cwmanage
+Module Name: CwManage
 online version:
 schema: 2.0.0
 ---
 
-# New-CwmServiceTicket
+# New-CwmProject
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
-New-CwmServiceTicket [<CommonParameters>]
+New-CwmProject [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -35,7 +35,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### None
 ## OUTPUTS
 
 ### System.Object

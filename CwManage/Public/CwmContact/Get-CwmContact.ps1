@@ -1,11 +1,8 @@
-function Get-CwmCompany {
+function Get-CwmContact {
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
+        [Parameter(Mandatory = $true)]
         [int]$CompanyId,
-
-        [Parameter(Mandatory = $False)]
-        [string]$CompanyName,
 
         [Parameter(Mandatory = $False)]
         [hashtable]$Conditions,
@@ -21,8 +18,7 @@ function Get-CwmCompany {
     )
 
     BEGIN {
-        $VerbosePrefix = "Get-CwmCompany:"
-
+        $VerbosePrefix = "Get-CwmContact:"
         $ReturnObject = @()
     }
 
@@ -33,15 +29,11 @@ function Get-CwmCompany {
         }
 
         if ($CompanyId) {
-            $Conditions.'id' = $CompanyId
-        }
-
-        if ($CompanyName) {
-            $Conditions.name = $CompanyName
+            $Conditions.'company/id' = $CompanyId
         }
 
         $ApiParams = @{}
-        $ApiParams.UriPath = 'company/companies'
+        $ApiParams.UriPath = "/company/contacts"
         $ApiParams.Conditions = $Conditions
         $ApiParams.QueryParameters = @{}
         $ApiParams.QueryParameters.page = 1
@@ -60,13 +52,18 @@ function Get-CwmCompany {
         }
 
         foreach ($r in $Response) {
-            $ThisObject = New-CwmCompany
+            $ThisObject = New-CwmContact
             $ThisObject.FullData = $r
 
             $ThisObject.Id = $r.id
-            $ThisObject.Name = $r.name
-            $ThisObject.ShortName = $r.identifier
-            $ThisObject.Type = $r.types.name
+
+            $ThisObject.FirstName = $r.firstName
+            $ThisObject.LastName = $r.lastName
+            $ThisObject.CompanyName = $r.company.Name
+            $ThisObject.EmailAddress = ($r.communicationItems | Where-Object { $_.communicationType -eq 'Email' }).value
+            $ThisObject.PhoneNumber = ($r.communicationItems | Where-Object { $_.communicationType -eq 'Phone' }).value
+
+            $ThisObject.Active = (-not $r.inactiveFlag)
 
             $ReturnObject += $ThisObject
         }

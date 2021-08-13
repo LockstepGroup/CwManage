@@ -5,26 +5,20 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-CwmAgreement
+# Get-CwmProject
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
-### NoId
 ```
-Get-CwmAgreement [[-CompanyId] <Int32>] [-OpportunityId <Int32>] [-AuthString <String>] [-ShowAll]
- [-Status <String>] [-PageSize <String>] [<CommonParameters>]
-```
-
-### Id
-```
-Get-CwmAgreement [-AgreementId <Int32>] [-AuthString <String>] [<CommonParameters>]
+Get-CwmProject [[-ProjectId] <Int32>] [-CompanyId <Int32>] [-OpportunityId <Int32>] [-BoardName <String>]
+ [-Conditions <Hashtable>] [-ShowAll] [-AuthString <String>] [-PageSize <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -38,7 +32,22 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -AuthString
-{{Fill AuthString Description}}
+{{ Fill AuthString Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BoardName
+{{ Fill BoardName Description }}
 
 ```yaml
 Type: String
@@ -53,56 +62,26 @@ Accept wildcard characters: False
 ```
 
 ### -CompanyId
-{{Fill CompanyId Description}}
+{{ Fill CompanyId Description }}
 
 ```yaml
 Type: Int32
-Parameter Sets: NoId
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -ShowAll
-{{Fill ShowAll Description}}
+### -Conditions
+{{ Fill Conditions Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: NoId
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -PageSize
-{{Fill PageSize Description}}
-
-```yaml
-Type: String
-Parameter Sets: NoId
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AgreementId
-{{ Fill AgreementId Description }}
-
-```yaml
-Type: Int32
-Parameter Sets: Id
+Type: Hashtable
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -117,7 +96,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: Int32
-Parameter Sets: NoId
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -127,12 +106,42 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Status
-{{ Fill Status Description }}
+### -PageSize
+{{ Fill PageSize Description }}
 
 ```yaml
 Type: String
-Parameter Sets: NoId
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProjectId
+{{ Fill ProjectId Description }}
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ShowAll
+{{ Fill ShowAll Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -147,10 +156,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.Int32
 ## OUTPUTS
 
-### System.Object
+### CwmProject[]
 ## NOTES
 
 ## RELATED LINKS

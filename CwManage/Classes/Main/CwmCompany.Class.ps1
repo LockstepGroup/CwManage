@@ -3,6 +3,8 @@ class CwmCompany {
     [string]$ShortName
     [int]$Id
 
+    [string[]]$Type
+
     $FullData
 
     ##################################### Constructors #####################################

@@ -1,6 +1,6 @@
 ---
 external help file: CwManage-help.xml
-Module Name: CwManage
+Module Name: cwmanage
 online version:
 schema: 2.0.0
 ---
@@ -14,7 +14,7 @@ Underlying Cmdlet used to create all api calls to ConnectWise Manage.
 
 ```
 Invoke-CwmApiCall [-Uri] <String> [-QueryParams <Hashtable>] [-Conditions <Hashtable>] [-Method <String>]
- [-Body <Hashtable>] [[-AuthString] <String>] [<CommonParameters>]
+ [-Body <Hashtable>] [[-AuthString] <String>] [-ClientId <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,7 +32,6 @@ Returns the first 25 (default pagesize for api calls) service tickets.
 ### Example 2
 ```powershell
 PS C:\> Invoke-CwmApiCall -Uri https://example.connectwise.com/v4_6_release/apis/3.0/service/tickets -Method 'GET' -QueryParams @{ 'pageSize' = 10 } -QueryParams = @{ 'company/name' = 'My Example Company" }
-
 ```
 
 Returns the first 10 service tickets for My Example Company.
@@ -129,8 +128,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ClientId
+{{ Fill ClientId Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

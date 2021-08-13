@@ -5,26 +5,20 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-CwmAgreement
+# Get-CwmCompanyTeam
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
-### NoId
 ```
-Get-CwmAgreement [[-CompanyId] <Int32>] [-OpportunityId <Int32>] [-AuthString <String>] [-ShowAll]
- [-Status <String>] [-PageSize <String>] [<CommonParameters>]
-```
-
-### Id
-```
-Get-CwmAgreement [-AgreementId <Int32>] [-AuthString <String>] [<CommonParameters>]
+Get-CwmCompanyTeam [-CompanyId] <Int32> [[-Conditions] <Hashtable>] [[-AuthString] <String>] [-ShowAll]
+ [[-PageSize] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -38,7 +32,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -AuthString
-{{Fill AuthString Description}}
+{{ Fill AuthString Description }}
 
 ```yaml
 Type: String
@@ -46,93 +40,63 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -CompanyId
-{{Fill CompanyId Description}}
+{{ Fill CompanyId Description }}
 
 ```yaml
 Type: Int32
-Parameter Sets: NoId
+Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ShowAll
-{{Fill ShowAll Description}}
+### -Conditions
+{{ Fill Conditions Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: NoId
+Type: Hashtable
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -PageSize
-{{Fill PageSize Description}}
+{{ Fill PageSize Description }}
 
 ```yaml
 Type: String
-Parameter Sets: NoId
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AgreementId
-{{ Fill AgreementId Description }}
+### -ShowAll
+{{ Fill ShowAll Description }}
 
 ```yaml
-Type: Int32
-Parameter Sets: Id
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -OpportunityId
-{{ Fill OpportunityId Description }}
-
-```yaml
-Type: Int32
-Parameter Sets: NoId
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Status
-{{ Fill Status Description }}
-
-```yaml
-Type: String
-Parameter Sets: NoId
+Type: SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
 Required: False

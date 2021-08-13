@@ -1,19 +1,20 @@
-Class CwmMember {
-    [int]$MemberId
+Class CwmContact {
+    [int]$Id
     $FullData
 
     [string]$FirstName
     [string]$LastName
-    [string]$Identifier
-    [string]$DefaultDepartment
-    [string]$PrimaryEmail
+    [string]$CompanyName
+    [string]$EmailAddress
+    [string]$PhoneNumber
 
+    [bool]$Active = $true
 
     #region Initiators
     ########################################################################
 
     # empty initiator
-    CwmMember() {
+    CwmContact() {
     }
 
     ########################################################################
