@@ -31,5 +31,5 @@ config.json*
 # Log Files
 *.log
 
-#testing file
+# testing file
 testing.ps1
