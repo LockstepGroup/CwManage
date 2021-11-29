@@ -7,6 +7,9 @@ function Get-CwmContact {
         [Parameter(Mandatory = $False)]
         [hashtable]$Conditions,
 
+        [Parameter(Mandatory = $False)]
+        [hashtable]$QueryParameters,
+
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString,
 
@@ -35,7 +38,13 @@ function Get-CwmContact {
         $ApiParams = @{}
         $ApiParams.UriPath = "/company/contacts"
         $ApiParams.Conditions = $Conditions
-        $ApiParams.QueryParameters = @{}
+
+        if ($QueryParameters) {
+            $ApiParams.QueryParameters = $QueryParameters
+        } else {
+            $ApiParams.QueryParameters = @{}
+        }
+
         $ApiParams.QueryParameters.page = 1
         $ApiParams.QueryParameters.pageSize = $PageSize
 

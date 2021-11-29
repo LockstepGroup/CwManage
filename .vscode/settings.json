@@ -2,7 +2,7 @@
   // Adds a newline (line break) after a closing brace.
   "powershell.codeFormatting.newLineAfterCloseBrace": false,
   // When enabled, will trim trailing whitespace when saving a file.
-"files.trimTrailingWhitespace": true,
+  "files.trimTrailingWhitespace": true,
   // Controls whether the editor should automatically format the line after typing.
   "editor.formatOnType": true
 }

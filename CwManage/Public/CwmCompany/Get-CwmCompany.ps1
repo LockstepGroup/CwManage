@@ -5,10 +5,14 @@ function Get-CwmCompany {
         [int]$CompanyId,
 
         [Parameter(Mandatory = $False)]
+        [Alias("Name")]
         [string]$CompanyName,
 
         [Parameter(Mandatory = $False)]
         [hashtable]$Conditions,
+
+        [Parameter(Mandatory = $False)]
+        [hashtable]$QueryParameters,
 
         [Parameter(Mandatory = $false)]
         [string]$AuthString = $global:CwAuthString,
@@ -43,7 +47,13 @@ function Get-CwmCompany {
         $ApiParams = @{}
         $ApiParams.UriPath = 'company/companies'
         $ApiParams.Conditions = $Conditions
-        $ApiParams.QueryParameters = @{}
+
+        if ($QueryParameters) {
+            $ApiParams.QueryParameters = $QueryParameters
+        } else {
+            $ApiParams.QueryParameters = @{}
+        }
+
         $ApiParams.QueryParameters.page = 1
         $ApiParams.QueryParameters.pageSize = $PageSize
 

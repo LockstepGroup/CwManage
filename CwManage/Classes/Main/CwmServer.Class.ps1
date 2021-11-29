@@ -35,7 +35,7 @@ Class CwmServer {
     # formatConditionValue
     [string] formatConditionValue ($value) {
         if ($value.GetType().Name -eq 'String') {
-            if ($value -match '\[.+\]') {
+            if ($value -match '(\(|\[).+(\)|\])') {
                 $formatedValue = [System.Uri]::EscapeDataString($value)
             } else {
                 $formatedValue = '"' + [System.Uri]::EscapeDataString($value) + '"'
@@ -50,12 +50,18 @@ Class CwmServer {
     [string] createConditionString ([hashtable]$hashTable) {
         #$i = 0
         $returnString = ""
-        $ConditionRx = [regex] '(?<operator>[=!<>]+|(like|contains)(?=\s))(?<value>.+)'
+        $ConditionRx = [regex] '(?<operator>[=!<>]+|(like|contains|in)(?=\s))(?<value>.+)'
         foreach ($hash in $hashTable.GetEnumerator()) {
             $ConditionMatch = $ConditionRx.Match($hash.Value)
             if ($ConditionMatch.Success) {
                 $Operator = $ConditionMatch.Groups['operator'].Value
                 $ConditionValue = $ConditionMatch.Groups['value'].Value
+                switch ($Operator) {
+                    'in' {
+
+                    }
+                    default {}
+                }
             } else {
                 $Operator = '='
                 $ConditionValue = $hash.Value
@@ -114,7 +120,7 @@ Class CwmServer {
     #region invokeApiQuery
     ########################################################################
 
-    [psobject] invokeApiQuery([hashtable]$conditions, [hashtable]$queryParameters, [string]$method) {
+    [psobject] invokeApiQuery([hashtable]$conditions, [hashtable]$queryParameters, [string]$method, [string]$body) {
 
         # Wrike uses the query string as a body attribute, keeping this function as is for now and just using an empty querystring
         $uri = $this.getApiUrl()
@@ -136,6 +142,11 @@ Class CwmServer {
             $QueryParams.Headers = @{
                 'Authorization' = "Basic $($this.AuthString)"
                 clientid        = $this.ClientId
+            }
+
+            # add body if needed
+            if ('' -ne $body) {
+                $QueryParams.Body = $body
             }
 
             Write-Verbose "Trying $FullUri"

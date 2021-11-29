@@ -14,7 +14,7 @@ function Invoke-CwmApiQuery {
         [string]$Method = 'GET',
 
         [Parameter(Mandatory = $false)]
-        [string]$Body
+        [string]$Body = ""
     )
 
     BEGIN {
@@ -26,7 +26,7 @@ function Invoke-CwmApiQuery {
             Throw "$VerbosePrefix no active connection to ConnectWise Manage, please use Connect-CwmServer to get started."
         } else {
             $Global:CwmServer.UriPath = $UriPath
-            $ReturnObject = $Global:CwmServer.invokeApiQuery($Conditions, $QueryParameters, $Method)
+            $ReturnObject = $Global:CwmServer.invokeApiQuery($Conditions, $QueryParameters, $Method, $Body)
         }
     }
 
