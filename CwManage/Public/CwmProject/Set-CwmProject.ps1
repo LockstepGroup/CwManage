@@ -1,8 +1,11 @@
 function Set-CwmProject {
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $True, Position = 0, ValueFromPipeline = $True)]
+        [Parameter(Mandatory = $True, Position = 0, ValueFromPipeline = $True,ParameterSetName = 'CwmProject')]
         [CwmProject]$CwmProject,
+
+        [Parameter(Mandatory = $True, Position = 0, ValueFromPipeline = $True,ParameterSetName = 'ProjectId')]
+        [int]$ProjectId,
 
         [Parameter(Mandatory = $True)]
         [string]$Body
@@ -17,11 +20,14 @@ function Set-CwmProject {
     }
 
     PROCESS {
-        $CurrentProject = Get-CwmProject -ProjectId $CwmProject.ProjectId
+        if ($CwmProject) {
+            $ProjectId = $CwmProject.ProjectId
+        }
+        $CurrentProject = Get-CwmProject -ProjectId $ProjectId
         if (-not $CurrentProject) {
             Throw 'Project does not exist, this cmdlet currently only support modifying projects'
         } else {
-            $ApiParams.UriPath = 'project/projects/' + $CwmProject.ProjectId
+            $ApiParams.UriPath = 'project/projects/' + $ProjectId
         }
     }
 
