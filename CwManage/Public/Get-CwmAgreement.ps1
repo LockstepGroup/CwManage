@@ -17,6 +17,9 @@ function Get-CwmAgreement {
         [Parameter(Mandatory = $False, ParameterSetName = "NoId")]
         [switch]$ShowAll,
 
+        [Parameter(Mandatory = $False)]
+        [switch]$CalculateBalance,
+
         [Parameter(Mandatory = $False, ParameterSetName = "NoId")]
         [string]$Status = 'Active',
 
@@ -116,63 +119,66 @@ function Get-CwmAgreement {
         # no idea if it triggers it counting from that day or the day before, hopefully
         # it doesn't matter
 
-        $TimeEntries = Get-CwmTimeEntry -AgreementId $ThisObject.AgreementId
-        switch ($ThisObject.ApplicationCycle) {
-            'CalendarMonth' {
-                $AvailableHours = @()
+        if ($CalculateBalance) {
+            $TimeEntries = Get-CwmTimeEntry -AgreementId $ThisObject.AgreementId
 
-                $CurrentDate = $ThisObject.StartDate
+            switch ($ThisObject.ApplicationCycle) {
+                'CalendarMonth' {
+                    $AvailableHours = @()
 
-                do {
-                    # set dates
-                    if ($NextApplicationDate) {
-                        $StartDate = $NextApplicationDate
-                    } else {
-                        $StartDate = $CurrentDate
-                    }
-                    $NextApplicationDate = $StartDate.AddMonths(1).AddDays((-1 * $StartDate.Day) + 1)
-                    Write-Verbose "$VerbosePrefix NextApplicationDate: $NextApplicationDate"
+                    $CurrentDate = $ThisObject.StartDate
 
-                    # accrue monthly hours
-                    $HourAddition = "" | Select-Object `
-                    @{Name = 'AddDate'; Expression = {$StartDate}},
-                    @{Name = 'ExpirationDate'; Expression = {$NextApplicationDate.AddDays($ThisObject.CarryOverExpireDays)}},
-                    @{Name = 'Hours'; Expression = {$ThisObject.ApplicationLimit}},
-                    StartingBalance, UsedHours
-                    $AvailableHours += $HourAddition
-
-                    # time entries for this month
-                    $ValidTimeEntries = $TimeEntries | Where-Object { $_.FullData.timeEnd -gt $StartDate -and $_.FullData.timeEnd -lt $NextApplicationDate }
-                    $HoursThisMonth = ($ValidTimeEntries.FullData.actualHours | measure-Object -Sum).Sum * -1
-
-                    # cycle through valid hour entries
-                    $ValidAvailableHours = $AvailableHours | Where-Object { $_.ExpirationDate -gt $StartDate }
-                    $HourAddition.StartingBalance = ($ValidAvailableHours.Hours | Measure-Object -Sum).Sum
-                    $HourAddition.UsedHours = $HoursThisMonth
-                    $BalanceForward = 0
-                    foreach ($HourEntry in ($ValidAvailableHours | Sort-Object ExpirationDate)) {
-                        $HourEntry.Hours += $HoursThisMonth
-                        if ($HourEntry.Hours -lt 0) {
-                            $BalanceForward = $HourEntry.Hours
-                            $HourEntry.Hours = 0
+                    do {
+                        # set dates
+                        if ($NextApplicationDate) {
+                            $StartDate = $NextApplicationDate
+                        } else {
+                            $StartDate = $CurrentDate
                         }
-                    }
+                        $NextApplicationDate = $StartDate.AddMonths(1).AddDays((-1 * $StartDate.Day) + 1)
+                        Write-Verbose "$VerbosePrefix NextApplicationDate: $NextApplicationDate"
 
-                    $ThisObject.StartingBalance = (($AvailableHours | Where-Object { $_.ExpirationDate -ge $CurrentDate }).Hours | Measure-Object -Sum).Sum
+                        # accrue monthly hours
+                        $HourAddition = "" | Select-Object `
+                        @{Name = 'AddDate'; Expression = {$StartDate}},
+                        @{Name = 'ExpirationDate'; Expression = {$NextApplicationDate.AddDays($ThisObject.CarryOverExpireDays)}},
+                        @{Name = 'Hours'; Expression = {$ThisObject.ApplicationLimit}},
+                        StartingBalance, UsedHours
+                        $AvailableHours += $HourAddition
 
-                    Write-Verbose "$VerbosePrefix $CurrentDate`: $($ThisObject.StartingBalance)"
+                        # time entries for this month
+                        $ValidTimeEntries = $TimeEntries | Where-Object { $_.FullData.timeEnd -gt $StartDate -and $_.FullData.timeEnd -lt $NextApplicationDate }
+                        $HoursThisMonth = ($ValidTimeEntries.FullData.actualHours | measure-Object -Sum).Sum * -1
 
-                    $CurrentDate = $EndDate
+                        # cycle through valid hour entries
+                        $ValidAvailableHours = $AvailableHours | Where-Object { $_.ExpirationDate -gt $StartDate }
+                        $HourAddition.StartingBalance = ($ValidAvailableHours.Hours | Measure-Object -Sum).Sum
+                        $HourAddition.UsedHours = $HoursThisMonth
+                        $BalanceForward = 0
+                        foreach ($HourEntry in ($ValidAvailableHours | Sort-Object ExpirationDate)) {
+                            $HourEntry.Hours += $HoursThisMonth
+                            if ($HourEntry.Hours -lt 0) {
+                                $BalanceForward = $HourEntry.Hours
+                                $HourEntry.Hours = 0
+                            }
+                        }
 
-                } while ($NextApplicationDate -lt (get-date))
-            }
-            '' {
-                $ThisObject.StartingBalance = $ThisObject.ApplicationLimit
-                Write-Verbose "$VerbosePrefix ApplicationCycle not set"
-                break
-            }
-            default {
-                Write-Warning "$VerbosePrefix unhandled ApplicationLimit: $($ThisObject.ApplicationCycle)"
+                        $ThisObject.StartingBalance = (($AvailableHours | Where-Object { $_.ExpirationDate -ge $CurrentDate }).Hours | Measure-Object -Sum).Sum
+
+                        Write-Verbose "$VerbosePrefix $CurrentDate`: $($ThisObject.StartingBalance)"
+
+                        $CurrentDate = $EndDate
+
+                    } while ($NextApplicationDate -lt (get-date))
+                }
+                '' {
+                    $ThisObject.StartingBalance = $ThisObject.ApplicationLimit
+                    Write-Verbose "$VerbosePrefix ApplicationCycle not set"
+                    break
+                }
+                default {
+                    Write-Warning "$VerbosePrefix unhandled ApplicationLimit: $($ThisObject.ApplicationCycle)"
+                }
             }
         }
 
