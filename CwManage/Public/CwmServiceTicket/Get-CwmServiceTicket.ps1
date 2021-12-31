@@ -8,6 +8,9 @@ function Get-CwmServiceTicket {
         [hashtable]$Conditions,
 
         [Parameter(Mandatory = $False)]
+        [hashtable]$QueryParameters,
+
+        [Parameter(Mandatory = $False)]
         [switch]$ShowAll,
 
         [Parameter(Mandatory = $false)]
@@ -41,9 +44,15 @@ function Get-CwmServiceTicket {
         }
 
         $ApiParams = @{}
+
+        if ($QueryParameters) {
+            $ApiParams.QueryParameters = $QueryParameters
+        } else {
+            $ApiParams.QueryParameters = @{}
+        }
+
         $ApiParams.UriPath = 'service/tickets'
         $ApiParams.Conditions = $Conditions
-        $ApiParams.QueryParameters = @{}
         $ApiParams.QueryParameters.page = 1
         $ApiParams.QueryParameters.pageSize = $PageSize
 
