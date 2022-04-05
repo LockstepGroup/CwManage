@@ -15,6 +15,9 @@ function Get-CwmProject {
         [string]$BoardName,
 
         [Parameter(Mandatory = $False)]
+        [hashtable]$QueryParameters,
+
+        [Parameter(Mandatory = $False)]
         [hashtable]$Conditions,
 
         [Parameter(Mandatory = $False)]
@@ -59,9 +62,15 @@ function Get-CwmProject {
         }
 
         $ApiParams = @{}
+
+        if ($QueryParameters) {
+            $ApiParams.QueryParameters = $QueryParameters
+        } else {
+            $ApiParams.QueryParameters = @{}
+        }
+
         $ApiParams.UriPath = 'project/projects'
         $ApiParams.Conditions = $Conditions
-        $ApiParams.QueryParameters = @{}
         $ApiParams.QueryParameters.page = 1
         $ApiParams.QueryParameters.pageSize = $PageSize
 

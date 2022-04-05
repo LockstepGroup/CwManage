@@ -5,6 +5,14 @@ Class CwmServer {
     [string]$ClientId
     [string]$Company
 
+    #region storedValues
+    ########################################################################
+
+    [array]$Members
+
+    ########################################################################
+    #endregion storedValues
+
     #region Tracking
     ########################################################################
 
@@ -133,9 +141,12 @@ Class CwmServer {
         $this.UrlHistory += $fullUri
         $this.ConditionHistory += $conditions
 
+        $QueryParams = @{}
+        $rawResult = $null
+
         # try query
         try {
-            $QueryParams = @{}
+
             $QueryParams.Uri = $fullUri
             $QueryParams.Method = $method
             $QueryParams.ContentType = 'application/json; charset=utf-8'
@@ -150,7 +161,21 @@ Class CwmServer {
             }
 
             Write-Verbose "Trying $FullUri"
+            if ($uri -match 'download') {
+                $QueryParams.OutFile = '/Users/brianaddicks/Downloads/test.pdf'
+            }
             $rawResult = Invoke-RestMethod @QueryParams
+        } catch [System.Net.Http.HttpRequestException] {
+            $RetryCount = 0
+            do {
+                Start-Sleep -Seconds 3
+                Write-Warning "Generic connection error, waiting 3 seconds and trying again"
+                $rawResult = Invoke-RestMethod @QueryParams
+                $RetryCount++
+            } while ($RetryCount -lt 3)
+            if ($null -eq $rawResult) {
+                Throw "Retries failed, check your connection"
+            }
         } catch {
             Throw $_
         }

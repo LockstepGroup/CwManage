@@ -78,6 +78,7 @@ function Get-CwmMember {
     }
 
     END {
+        $Global:CwmServer.Members = $ReturnObject
         $ReturnObject
     }
 }
