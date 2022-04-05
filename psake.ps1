@@ -55,11 +55,15 @@ Task Test -Depends Init {
 Task Build -Depends Test {
     $lines
 
-    # Load the module, read the exported functions, update the psd1 FunctionsToExport
-    Set-ModuleFunctions
+    If ($ENV:BHBuildSystem -eq 'AppVeyor') {
+        # Load the module, read the exported functions, update the psd1 FunctionsToExport
+        Set-ModuleFunctions
+    }
 
-    # Bump the module version
-    Update-Metadata -Path $env:BHPSModuleManifest
+    If ($ENV:BHBuildSystem -ne 'AppVeyor') {
+        # Bump the module version
+        Update-Metadata -Path $env:BHPSModuleManifest
+    }
 }
 
 Task Deploy -Depends Build {
